@@ -15,7 +15,8 @@
     "tbill_6m": "DGS6MO",
     "tbill_1y": "DGS1",
     "ust_2y": "DGS2",
-    "ust_10y": "DGS10"
+    "ust_10y": "DGS10",
+    "ust_5y": "DGS5"
   },
   "banxico_series": {
     "target": {
@@ -50,6 +51,10 @@
       "id": "SF349785",
       "expect": "728"
     },
+    "bono_5y": {
+      "id": "SF43886",
+      "expect": "5 años"
+    },
     "bono_10y": {
       "id": "SF44071",
       "expect": "10"
@@ -76,35 +81,51 @@
     {
       "id": "mx_mid_2027",
       "country": "MX",
-      "name": "Mexico midterm election",
+      "name": "Elección intermedia de México",
       "date": "2027-06-06",
-      "detail": "All 500 seats in the Chamber of Deputies, plus about 19,600 state and local offices",
+      "detail": "Se renuevan las 500 diputaciones federales y unos 19,600 cargos locales",
       "source": "https://politica.expansion.mx/mexico/2026/09/11/elecciones-mexico-2027-que-se-vota-fechas-clave-ine"
     },
     {
       "id": "us_pres_2028",
       "country": "US",
-      "name": "US presidential election",
+      "name": "Elección presidencial de EE. UU.",
       "date": "2028-11-07",
-      "detail": "President, all 435 House seats and 34 Senate seats",
+      "detail": "Presidencia, los 435 escaños de la Cámara y 34 del Senado",
       "source": "https://www.usa.gov/when-to-vote"
     },
     {
       "id": "mx_pres_2030",
       "country": "MX",
-      "name": "Mexico presidential election",
+      "name": "Elección presidencial de México",
       "date": "2030-06-02",
-      "detail": "President (6-year term), Congress; first Sunday of June",
+      "detail": "Presidencia (sexenio) y Congreso; primer domingo de junio",
       "source": "https://www.ine.mx"
     },
     {
       "id": "us_mid_2030",
       "country": "US",
-      "name": "US midterm election",
+      "name": "Elección intermedia de EE. UU.",
       "date": "2030-11-05",
-      "detail": "All 435 House seats and about a third of the Senate. The last midterm was 3 Nov 2026",
+      "detail": "Los 435 escaños de la Cámara y un tercio del Senado. La anterior fue el 3 nov 2026",
       "source": "https://www.usa.gov/when-to-vote"
     }
   ],
-  "_elections_help": "Dates are editable. The dashboard counts down to each and flags any that fall inside a USD/MXN horizon."
+  "_elections_help": "Fechas editables. El tablero cuenta los días y calcula su efecto probable en el tipo de cambio.",
+  "elections_history": {
+    "_help": "Elecciones pasadas usadas para medir cuánto se mueve el peso alrededor de una elección.",
+    "MX": [
+      "2015-06-07",
+      "2018-07-01",
+      "2021-06-06",
+      "2024-06-02"
+    ],
+    "US": [
+      "2016-11-08",
+      "2018-11-06",
+      "2020-11-03",
+      "2022-11-08",
+      "2024-11-05"
+    ]
+  }
 }

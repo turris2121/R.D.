@@ -6,7 +6,7 @@ on:
   workflow_dispatch:        # "Run workflow" button in the Actions tab
     inputs:
       notify:
-        description: "Send the Telegram summary now"
+        description: "Enviar el resumen de Telegram ahora"
         type: boolean
         default: false
   push:

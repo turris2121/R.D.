@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T15:32+00:00",
+ "generated": "2026-11-24T17:00+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
@@ -730,6 +730,7 @@
    "cetes_182": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 182 días",
    "cetes_364": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 364 días",
    "cetes_728": "Valores gubernamentales Resultados de la subasta semanal , Tasa de rendimiento Cetes a 728 días",
+   "bono_5y": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Bono tasa fija 5 años",
    "bono_10y": "Valores Gubernamentales    Resultados de la subasta semanal Tasa de rendimiento  Bono tasa fija 10 años",
    "usdmxn_fix": "Tipo de cambio                                          Pesos por dólar E.U.A. Tipo de cambio para solventar obligaciones denominadas en moneda extranjera Fecha de determinación (FIX)"
   }
@@ -888,78 +889,91 @@
  ],
  "tasa_actual": [
   {
-   "label": "1 month",
-   "mx_name": "CETES 28d",
+   "label": "1 mes",
+   "mx_name": "CETES 28 días",
    "mx": {
     "date": "2026-11-19",
     "value": 6.19
    },
-   "us_name": "T-bill 1M",
+   "us_name": "T-bill 1 mes",
    "us": {
     "date": "2026-11-23",
     "value": 4.2
    }
   },
   {
-   "label": "3 months",
-   "mx_name": "CETES 91d",
+   "label": "3 meses",
+   "mx_name": "CETES 91 días",
    "mx": {
     "date": "2026-11-19",
     "value": 6.49
    },
-   "us_name": "T-bill 3M",
+   "us_name": "T-bill 3 meses",
    "us": {
     "date": "2026-11-23",
     "value": 4.37
    }
   },
   {
-   "label": "6 months",
-   "mx_name": "CETES 182d",
+   "label": "6 meses",
+   "mx_name": "CETES 182 días",
    "mx": {
     "date": "2026-11-19",
     "value": 6.67
    },
-   "us_name": "T-bill 6M",
+   "us_name": "T-bill 6 meses",
    "us": {
     "date": "2026-11-23",
     "value": 4.45
    }
   },
   {
-   "label": "1 year",
-   "mx_name": "CETES 364d",
+   "label": "1 año",
+   "mx_name": "CETES 364 días",
    "mx": {
     "date": "2026-11-12",
     "value": 6.95
    },
-   "us_name": "Treasury 1Y",
+   "us_name": "Treasury 1 año",
    "us": {
     "date": "2026-11-23",
     "value": 4.57
    }
   },
   {
-   "label": "2 years",
-   "mx_name": "CETES 728d",
+   "label": "2 años",
+   "mx_name": "CETES 728 días",
    "mx": {
     "date": "2026-11-19",
     "value": 7.87
    },
-   "us_name": "Treasury 2Y",
+   "us_name": "Treasury 2 años",
    "us": {
     "date": "2026-11-23",
     "value": 4.63
    }
   },
   {
-   "label": "10 years",
-   "mx_name": "Bono M 10Y",
+   "label": "5 años",
+   "mx_name": "Bono M 5 años",
+   "mx": {
+    "date": "2026-10-29",
+    "value": 8.78
+   },
+   "us_name": "Treasury 5 años",
+   "us": {
+    "date": "2026-11-23",
+    "value": 4.74
+   }
+  },
+  {
+   "label": "10 años",
+   "mx_name": "Bono M 10 años",
    "mx": {
     "date": "2026-11-19",
     "value": 9.28
    },
-   "us_name": "Treasury 10Y",
+   "us_name": "Treasury 10 años",
    "us": {
     "date": "2026-11-23",
     "value": 4.92
@@ -972,7 +986,7 @@
   "vol_annual": 8.53,
   "horizons": [
    {
-    "label": "1 month",
+    "label": "1 mes",
     "days": 30,
     "forward": 19.1965,
     "forward_pct": 0.17,
@@ -988,7 +1002,7 @@
     "events": []
    },
    {
-    "label": "3 months",
+    "label": "3 meses",
     "days": 91,
     "forward": 19.2664,
     "forward_pct": 0.53,
@@ -1004,7 +1018,7 @@
     "events": []
    },
    {
-    "label": "6 months",
+    "label": "6 meses",
     "days": 182,
     "forward": 19.3752,
     "forward_pct": 1.1,
@@ -1020,7 +1034,7 @@
     "events": []
    },
    {
-    "label": "1 year",
+    "label": "1 año",
     "days": 364,
     "forward": 19.6056,
     "forward_pct": 2.3,
@@ -1034,8 +1048,226 @@
     "mx_rate": 6.95,
     "us_rate": 4.57,
     "events": [
-     "Mexico midterm election"
+     "Elección intermedia de México"
     ]
+   }
+  ]
+ },
+ "election_fx": {
+  "normal_sd_pct": 2.39,
+  "window": "5 días antes a 10 días después",
+  "history": {
+   "MX": {
+    "moves": [
+     {
+      "date": "2015-06-07",
+      "move_pct": 0.05
+     },
+     {
+      "date": "2018-07-01",
+      "move_pct": -4.7
+     },
+     {
+      "date": "2021-06-06",
+      "move_pct": 0.83
+     },
+     {
+      "date": "2024-06-02",
+      "move_pct": 11.48
+     }
+    ],
+    "election_sd_pct": 6.22
+   },
+   "US": {
+    "moves": [
+     {
+      "date": "2016-11-08",
+      "move_pct": 6.15
+     },
+     {
+      "date": "2018-11-06",
+      "move_pct": 0.11
+     },
+     {
+      "date": "2020-11-03",
+      "move_pct": -4.27
+     },
+     {
+      "date": "2022-11-08",
+      "move_pct": -0.89
+     },
+     {
+      "date": "2024-11-05",
+      "move_pct": 1.74
+     }
+    ],
+    "election_sd_pct": 3.46
+   }
+  },
+  "elections": [
+   {
+    "week": {
+     "sd_pct": 6.22,
+     "normal_sd_pct": 2.39,
+     "p_big5": 0.433,
+     "p_big5_normal": 0.041,
+     "p_weaker3": 0.317,
+     "p_stronger3": 0.312,
+     "range80_pct": [
+      -7.7,
+      8.3
+     ]
+    },
+    "id": "mx_mid_2027",
+    "name": "Elección intermedia de México",
+    "country": "MX",
+    "date": "2027-06-06",
+    "days_until": 194,
+    "horizon_days": 204,
+    "forward": 19.39,
+    "with_election": {
+     "p_usd_up": 0.537,
+     "p_up_5": 0.318,
+     "p_down_5": 0.244,
+     "range80": [
+      17.31,
+      21.57
+     ]
+    },
+    "without_election": {
+     "p_usd_up": 0.561,
+     "p_up_5": 0.27,
+     "p_down_5": 0.169,
+     "range80": [
+      17.83,
+      21.0
+     ]
+    },
+    "p_big_move": 0.562,
+    "p_big_move_base": 0.439
+   },
+   {
+    "week": {
+     "sd_pct": 3.46,
+     "normal_sd_pct": 2.39,
+     "p_big5": 0.159,
+     "p_big5_normal": 0.041,
+     "p_weaker3": 0.196,
+     "p_stronger3": 0.189,
+     "range80_pct": [
+      -4.3,
+      4.5
+     ]
+    },
+    "id": "us_pres_2028",
+    "name": "Elección presidencial de EE. UU.",
+    "country": "US",
+    "date": "2028-11-07",
+    "days_until": 714,
+    "horizon_days": 724,
+    "forward": 20.36,
+    "with_election": {
+     "p_usd_up": 0.667,
+     "p_up_5": 0.514,
+     "p_down_5": 0.198,
+     "range80": [
+      17.27,
+      23.65
+     ]
+    },
+    "without_election": {
+     "p_usd_up": 0.671,
+     "p_up_5": 0.515,
+     "p_down_5": 0.192,
+     "range80": [
+      17.33,
+      23.58
+     ]
+    },
+    "p_big_move": 0.712,
+    "p_big_move_base": 0.707
+   },
+   {
+    "week": {
+     "sd_pct": 6.22,
+     "normal_sd_pct": 2.39,
+     "p_big5": 0.433,
+     "p_big5_normal": 0.041,
+     "p_weaker3": 0.317,
+     "p_stronger3": 0.312,
+     "range80_pct": [
+      -7.7,
+      8.3
+     ]
+    },
+    "id": "mx_pres_2030",
+    "name": "Elección presidencial de México",
+    "country": "MX",
+    "date": "2030-06-02",
+    "days_until": 1286,
+    "horizon_days": 1296,
+    "forward": 21.92,
+    "with_election": {
+     "p_usd_up": 0.759,
+     "p_up_5": 0.661,
+     "p_down_5": 0.158,
+     "range80": [
+      17.36,
+      26.89
+     ]
+    },
+    "without_election": {
+     "p_usd_up": 0.775,
+     "p_up_5": 0.674,
+     "p_down_5": 0.141,
+     "range80": [
+      17.61,
+      26.59
+     ]
+    },
+    "p_big_move": 0.819,
+    "p_big_move_base": 0.815
+   },
+   {
+    "week": {
+     "sd_pct": 3.46,
+     "normal_sd_pct": 2.39,
+     "p_big5": 0.159,
+     "p_big5_normal": 0.041,
+     "p_weaker3": 0.196,
+     "p_stronger3": 0.189,
+     "range80_pct": [
+      -4.3,
+      4.5
+     ]
+    },
+    "id": "us_mid_2030",
+    "name": "Elección intermedia de EE. UU.",
+    "country": "US",
+    "date": "2030-11-05",
+    "days_until": 1442,
+    "horizon_days": 1452,
+    "forward": 22.28,
+    "with_election": {
+     "p_usd_up": 0.785,
+     "p_up_5": 0.694,
+     "p_down_5": 0.138,
+     "range80": [
+      17.61,
+      27.36
+     ]
+    },
+    "without_election": {
+     "p_usd_up": 0.788,
+     "p_up_5": 0.696,
+     "p_down_5": 0.135,
+     "range80": [
+      17.66,
+      27.31
+     ]
+    },
+    "p_big_move": 0.832,
+    "p_big_move_base": 0.831
    }
   ]
  },
@@ -1043,36 +1275,36 @@
   {
    "id": "mx_mid_2027",
    "country": "MX",
-   "name": "Mexico midterm election",
+   "name": "Elección intermedia de México",
    "date": "2027-06-06",
-   "detail": "All 500 seats in the Chamber of Deputies, plus about 19,600 state and local offices",
+   "detail": "Se renuevan las 500 diputaciones federales y unos 19,600 cargos locales",
    "source": "https://politica.expansion.mx/mexico/2026/09/11/elecciones-mexico-2027-que-se-vota-fechas-clave-ine",
    "days_until": 194
   },
   {
    "id": "us_pres_2028",
    "country": "US",
-   "name": "US presidential election",
+   "name": "Elección presidencial de EE. UU.",
    "date": "2028-11-07",
-   "detail": "President, all 435 House seats and 34 Senate seats",
+   "detail": "Presidencia, los 435 escaños de la Cámara y 34 del Senado",
    "source": "https://www.usa.gov/when-to-vote",
    "days_until": 714
   },
   {
    "id": "mx_pres_2030",
    "country": "MX",
-   "name": "Mexico presidential election",
+   "name": "Elección presidencial de México",
    "date": "2030-06-02",
-   "detail": "President (6-year term), Congress; first Sunday of June",
+   "detail": "Presidencia (sexenio) y Congreso; primer domingo de junio",
    "source": "https://www.ine.mx",
    "days_until": 1286
   },
   {
    "id": "us_mid_2030",
    "country": "US",
-   "name": "US midterm election",
+   "name": "Elección intermedia de EE. UU.",
    "date": "2030-11-05",
-   "detail": "All 435 House seats and about a third of the Senate. The last midterm was 3 Nov 2026",
+   "detail": "Los 435 escaños de la Cámara y un tercio del Senado. La anterior fue el 3 nov 2026",
    "source": "https://www.usa.gov/when-to-vote",
    "days_until": 1442
   }

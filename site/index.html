@@ -1,80 +1,75 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Fed & Banxico Rates</title>
+<meta name="theme-color" content="#f6f6f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Visión del futuro">
+<title>Visión del futuro</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <div>
-      <h1>Fed & Banxico Rates</h1>
-      <p class="sub">US and Mexico policy rates, meeting calendars, market-implied odds and investment yields. Refreshed daily from official data.</p>
-    </div>
-    <div class="updated" id="updated">Loading…</div>
+    <h1>Visión del futuro</h1>
+    <p class="sub">Fed, Banxico, CETES y tipo de cambio. Se actualiza cada día con datos oficiales.</p>
+    <p class="updated" id="updated">Cargando…</p>
   </header>
 
   <div id="warnings"></div>
 
-  <section class="panel">
-    <div class="panel-head">
-      <h2>Tasa actual</h2>
-      <span class="muted" id="tasa-sub"></span>
-    </div>
-    <div class="kpis tasa" id="tasa"></div>
+  <section class="sec" id="s1">
+    <h2><span class="n">1</span>Posible fecha de cambio</h2>
+    <div class="cards2" id="dates"></div>
+    <details class="more">
+      <summary>Ver calendario completo de reuniones</summary>
+      <div id="calendars"></div>
+    </details>
   </section>
 
-  <section class="kpis" id="kpis" aria-label="Summary"></section>
-
-  <section class="banks">
-    <section class="panel" id="fed"></section>
-    <section class="panel" id="banxico"></section>
+  <section class="sec" id="s2">
+    <h2><span class="n">2</span>Posibilidad de cambio de tasa</h2>
+    <div class="stack" id="odds"></div>
+    <p class="note">Estimación a partir de los rendimientos de T-bills (Fed) y CETES (Banxico). Compárala con <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html">CME FedWatch</a>.</p>
   </section>
 
-  <section class="panel">
-    <div class="panel-head">
-      <h2>USD/MXN: odds by horizon</h2>
-      <span class="muted" id="fx-sub"></span>
-    </div>
-    <div class="scroll"><table class="grid fx" id="fx"></table></div>
-    <p class="muted" style="margin:8px 0 0">The centre is the forward rate, the level that makes holding CETES or T-bills break even. It's what the market prices in, not a forecast. The width comes from the peso's volatility over the last year. Historically the peso has often beaten its forward because of the rate gap (the "carry"), so the odds of a weaker peso may be overstated.</p>
+  <section class="sec" id="s3">
+    <h2><span class="n">3</span>Tasa actual</h2>
+    <table class="rates" id="tasa"></table>
   </section>
 
-  <section class="panel">
-    <div class="panel-head">
-      <h2>Elections</h2>
-      <span class="muted">Political events that can move rates and the peso</span>
-    </div>
-    <div class="elections" id="elections"></div>
+  <section class="sec" id="s4">
+    <h2><span class="n">4</span>Probabilidad tipo de cambio</h2>
+    <div class="fixnow" id="fixnow"></div>
+    <div class="stack" id="elecfx"></div>
+    <details class="more">
+      <summary>Ver probabilidades por plazo (1 mes a 1 año)</summary>
+      <div id="fx"></div>
+    </details>
   </section>
 
-  <section class="panel">
-    <div class="panel-head">
-      <h2>Policy rates over time</h2>
-      <div class="legend" id="chart-legend"></div>
-    </div>
+  <section class="sec">
+    <h2>Historial de tasas de referencia</h2>
+    <div class="legend" id="chart-legend"></div>
     <div class="chart" id="chart"></div>
-    <details class="tbl-toggle"><summary>Show rate changes as a table</summary><div id="chart-table"></div></details>
+    <details class="more"><summary>Ver cambios en tabla</summary><div id="chart-table"></div></details>
   </section>
 
-  <section class="panel">
-    <div class="panel-head">
-      <h2>Investment rates: Mexico vs US</h2>
-      <span class="muted">Spread = Mexico − US, in percentage points. Relative = how much higher Mexico's rate is.</span>
-    </div>
-    <div class="scroll"><table class="grid" id="inv"></table></div>
+  <section class="sec">
+    <h2>Otras tasas de corto plazo</h2>
+    <table class="rates" id="otras"></table>
   </section>
 
-  <section class="panel">
-    <h2>How these numbers are made</h2>
+  <section class="sec">
+    <h2>Cómo se calcula</h2>
     <ul class="notes">
-      <li><b>Calendars.</b> FOMC dates come from <a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm">federalreserve.gov</a>; Banxico dates from its <a href="https://www.banxico.org.mx/publicaciones-y-prensa/anuncios-de-las-decisiones-de-politica-monetaria/anuncios-politica-monetaria-t.html">published calendar</a>. Past decisions compare the rate the day before each meeting with the rate 5 days after.</li>
-      <li><b>Odds (estimate).</b> If a bank moves 25 bp at a meeting k days away, the average rate over a bill's life of h days moves by 25 bp × (h−k)/h. So the bill yield, minus its usual spread to the policy rate, gives the probability-weighted move. The Fed uses T-bills against the effective fed funds rate; Banxico uses CETES against its target. The usual spread ("basis") is the median from the last 2 years, counting only days when the rate didn't change during the bill's life. This is cruder than futures-based tools: cross-check with <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html">CME FedWatch</a>.</li>
-      <li><b>USD/MXN odds.</b> Forward = FIX × (1 + CETES × d/360) ÷ (1 + T-bill × d/360). Outcomes are modelled as lognormal around the forward, with the last 252 days' realized volatility of the FIX. Options-implied volatility would be better, but there's no free source for it.</li>
-      <li><b>Tasa actual</b> shows the latest published yield for each term, side by side: CETES (28, 91, 182, 364 and 728 days) and the 10-year Bono M for Mexico, and T-bills and Treasuries for the US. CETES come from Banxico's auctions (weekly up to 1 year, every two weeks for 2 years).</li>
-      <li><b>Sources.</b> US: <a href="https://markets.newyorkfed.org/static/docs/markets-api.html">New York Fed</a> and <a href="https://home.treasury.gov/resource-center/data-chart-center/interest-rates">US Treasury</a>, with <a href="https://fred.stlouisfed.org">FRED</a> as fallback. Mexico: <a href="https://www.banxico.org.mx/SieAPIRest/service/v1/">Banxico SIE API</a>. Bill yields are the latest published, usually one business day old; CETES come from weekly auctions.</li>
+      <li><b>Fechas.</b> Las reuniones de la Fed salen de <a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm">federalreserve.gov</a> y las de Banxico de su <a href="https://www.banxico.org.mx/publicaciones-y-prensa/anuncios-de-las-decisiones-de-politica-monetaria/anuncios-politica-monetaria-t.html">calendario oficial</a>. Las decisiones pasadas comparan la tasa del día anterior con la de 5 días después.</li>
+      <li><b>Posibilidad de cambio de tasa.</b> Si un banco mueve 0.25 en una reunión que está a k días, el promedio de la tasa durante la vida de un bono de h días cambia 0.25 × (h−k)/h. Así, el rendimiento del bono menos su diferencial usual indica el movimiento esperado. El diferencial usual es la mediana de los últimos 2 años contra la tasa que realmente estuvo vigente. «Señal clara» significa que los plazos más largos coinciden y el movimiento supera el ruido normal.</li>
+      <li><b>Tasa actual.</b> México: CETES (28 a 728 días) y Bono M (5 y 10 años) de las subastas de Banxico. EE. UU.: T-bills y Treasuries del Departamento del Tesoro.</li>
+      <li><b>Tipo de cambio y elecciones.</b> *«Semana de la elección» = de 5 días antes a 10 días después. Con el FIX desde 2014 se mide cuánto se movió el peso entre 5 días antes y 10 días después de cada elección pasada, y se compara con 15 días normales. Son pocas elecciones (4 en México, 5 en EE. UU.), así que es una guía, no un pronóstico. El tipo de cambio esperado a la fecha de la elección es el forward (FIX ajustado por la diferencia de tasas); históricamente el peso suele quedar mejor que el forward.</li>
+      <li><b>Fuentes.</b> <a href="https://www.banxico.org.mx/SieAPIRest/service/v1/">Banxico SIE</a>, <a href="https://markets.newyorkfed.org/static/docs/markets-api.html">Fed de Nueva York</a>, <a href="https://home.treasury.gov/resource-center/data-chart-center/interest-rates">Tesoro de EE. UU.</a> y <a href="https://fred.stlouisfed.org">FRED</a> como respaldo.</li>
     </ul>
   </section>
   <div class="tip" id="tip" hidden></div>

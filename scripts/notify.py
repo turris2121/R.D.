@@ -20,89 +20,70 @@ ROOT = Path(__file__).resolve().parent.parent
 D = json.loads((ROOT / "site" / "data" / "rates.json").read_text())
 
 
+MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+DIAS = ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"]
+ACT = {"cut": "Baja", "hold": "Se mantiene", "hike": "Sube"}
+FLAG = {"MX": "🇲🇽", "US": "🇺🇸"}
+
+
 def pct(v, digits=2):
-    return "n/a" if v is None else f"{v:.{digits}f}%"
+    return "s/d" if v is None else f"{v:.{digits}f}%"
 
 
 def val(o, digits=2):
-    return pct(o["value"], digits) if o else "n/a"
+    return pct(o["value"], digits) if o else "s/d"
 
 
-def day(iso):
+def fecha(iso, weekday=False):
     if not iso:
-        return "n/a"
+        return "s/d"
     d = dt.date.fromisoformat(iso)
-    return f"{d:%a %d %b %Y} (in {(d - dt.date.fromisoformat(D['today'])).days} days)"
+    s = f"{d.day} {MESES[d.month - 1]} {d.year}"
+    return f"{DIAS[d.weekday()]} {s}" if weekday else s
 
 
-def odds_line(o):
-    if not o:
-        return "Odds: not enough data"
-    parts = []
-    for k, name in (("p_cut", "cut"), ("p_hold", "hold"), ("p_hike", "hike")):
-        if o[k] > 0.005:
-            parts.append(f"{name} {o[k]:.0%}")
-    s = "Odds (est.): " + ", ".join(parts)
-    if o["p_50bp"] > 0.005:
-        s += " (more than one 25 bp step priced)"
-    s += f"  [implied {o['implied_move_bp']:+.0f} bp]"
-    s += {"clear": "\nSignal: clear (all bill maturities agree)",
-          "mixed": "\nSignal: mixed (longer bills disagree), low confidence",
-          "weak": "\nSignal: weak (within normal noise), read as a hold"}.get(o.get("signal"), "")
-    return s
-
-
-def last_decision(bank):
-    d = bank["decisions"][-1] if bank["decisions"] else None
-    if not d:
-        return "n/a"
-    return f"{d['action']} {d['bp']:+d} bp on {d['date']}" if d["bp"] else f"hold on {d['date']}"
+def dias(iso):
+    return (dt.date.fromisoformat(iso) - dt.date.fromisoformat(D["today"])).days
 
 
 def build() -> str:
-    f, b = D["fed"], D["banxico"]
     e = lambda x: html.escape(x, quote=False)
-    rng = f"{val(f['lower'])}–{val(f['upper'])}" if f["upper"] else "n/a"
-    lines = [
-        f"<b>Weekly rates · {D['today']}</b>",
-        "",
-        f"🇺🇸 <b>Fed</b> {rng} (EFFR {val(f['effr'])})",
-        f"Last: {last_decision(f)}",
-        f"Next: {day(f['next_meeting'])}",
-        html.escape(odds_line(f["odds"]), quote=False),
-        "",
-        f"🇲🇽 <b>Banxico</b> {val(b['target'])}",
-        f"Last: {last_decision(b)}",
-        f"Next: {day(b['next_meeting'])}",
-        html.escape(odds_line(b["odds"]), quote=False),
-        "",
-        "<b>Mexico − US</b>",
-    ]
-    for r in D["investments"]:
-        if r["spread_pp"] is None or "(" in r["label"]:
+    banks = (("🇺🇸 Fed", D["fed"]), ("🇲🇽 Banxico", D["banxico"]))
+    lines = [f"<b>Visión del futuro · {fecha(D['today'])}</b>", "", "<b>1) Posible fecha de cambio</b>"]
+    for name, B in banks:
+        n = B["next_meeting"]
+        lines.append(f"{name}: {fecha(n, True)} (en {dias(n)} días)" if n else f"{name}: s/d")
+
+    lines += ["", "<b>2) Posibilidad de cambio de tasa</b>"]
+    sig = {"clear": "señal clara", "mixed": "señal mixta, confianza baja", "weak": "señal débil, léelo como «se mantiene»"}
+    for name, B in banks:
+        o = B["odds"]
+        if not o:
+            lines.append(f"{name}: sin datos")
             continue
-        lines.append(f"{e(r['label'])}: {r['mx']['value']:.2f}% vs {r['us']['value']:.2f}% "
-                     f"→ {r['spread_pp']:+.2f} pp ({r['relative_pct']:+.0f}%)")
-    fx = D.get("fx")
-    if fx and fx["horizons"]:
-        lines += ["", f"<b>USD/MXN</b> {fx['spot']:.4f} (vol {fx['vol_annual']:.1f}%/yr)"]
-        for h in fx["horizons"]:
-            ev = f" · {', '.join(h['events'])}" if h["events"] else ""
-            lines.append(f"{h['label']}: fwd {h['forward']:.2f}, peso weaker {h['p_usd_up']:.0%}, "
-                         f"±5%: {h['p_up_5']:.0%}↑ / {h['p_down_5']:.0%}↓, range {h['range80'][0]:.2f}–{h['range80'][1]:.2f}{e(ev)}")
-    up = [x for x in D.get("elections", []) if x["days_until"] >= 0][:3]
-    if up:
-        lines += ["", "<b>Elections</b>"] + [f"{'🇲🇽' if x['country'] == 'MX' else '🇺🇸'} {e(x['name'])}: {x['date']} (in {x['days_until']} days)" for x in up]
-    lines += ["", "<b>Tasa actual</b>  🇲🇽 vs 🇺🇸"]
+        lines.append(f"{name}: baja {o['p_cut']:.0%} · se mantiene {o['p_hold']:.0%} · sube {o['p_hike']:.0%} "
+                     f"({sig.get(o['signal'], '')})")
+
+    lines += ["", "<b>3) Tasa actual</b>  🇲🇽 vs 🇺🇸"]
     for t in D["tasa_actual"]:
-        mx = f"{t['mx']['value']:.2f}%" if t["mx"] else "n/a"
-        us = f"{t['us']['value']:.2f}%" if t["us"] else "n/a"
-        lines.append(f"{t['label']}: {t['mx_name']} <b>{mx}</b> · {t['us_name']} <b>{us}</b>")
+        lines.append(f"{t['label']}: <b>{val(t['mx'])}</b> vs <b>{val(t['us'])}</b>")
+
+    fx, efx = D.get("fx"), D.get("election_fx")
+    lines += ["", "<b>4) Probabilidad tipo de cambio</b>"]
+    if fx:
+        lines.append(f"Dólar hoy (FIX): ${fx['spot']:.2f}")
+    if efx:
+        for x in efx["elections"][:2]:
+            w = x["week"]
+            lines.append(f"{FLAG[x['country']]} {e(x['name'])}, {fecha(x['date'])} (en {x['days_until']} días): "
+                         f"movimiento ≥5% {w['p_big5']:.0%} (normal {w['p_big5_normal']:.0%}); "
+                         f"dólar ↑3% {w['p_weaker3']:.0%}, ↓3% {w['p_stronger3']:.0%}; "
+                         f"mercado ${x['forward']:.2f}")
     if D["warnings"]:
         lines += ["", "⚠️ " + "\n⚠️ ".join(e(w) for w in D["warnings"][:6])]
     url = os.environ.get("DASHBOARD_URL")
     if url:
-        lines += ["", f'<a href="{e(url)}">Open dashboard</a>']
+        lines += ["", f'<a href="{e(url)}">Abrir el tablero</a>']
     return "\n".join(lines)
 
 
@@ -112,7 +93,7 @@ def main() -> int:
         r = requests.get(f"https://api.telegram.org/bot{token}/getUpdates", timeout=30).json()
         chats = {u["message"]["chat"]["id"]: u["message"]["chat"].get("first_name") or
                  u["message"]["chat"].get("title") for u in r.get("result", []) if "message" in u}
-        print(chats or "No messages yet. Send your bot any message in Telegram, then rerun.")
+        print(chats or "Aún no hay mensajes. Escríbele cualquier cosa a tu bot en Telegram y vuelve a correr esto.")
         return 0
     msg = build()
     if "--dry-run" in sys.argv:
@@ -120,15 +101,15 @@ def main() -> int:
         return 0
     chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     if not token or not chat:
-        print("TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID not set; skipping notification")
+        print("Faltan TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID; no se envía la notificación")
         return 0
     r = requests.post(f"https://api.telegram.org/bot{token}/sendMessage", timeout=30,
                       json={"chat_id": chat, "text": msg, "parse_mode": "HTML",
                             "disable_web_page_preview": True})
     if not r.ok:
-        print(f"Telegram error {r.status_code}: {r.text}")
+        print(f"Error de Telegram {r.status_code}: {r.text}")
         return 1
-    print("Sent")
+    print("Enviado")
     return 0
 
 

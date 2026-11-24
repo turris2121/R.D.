@@ -71,9 +71,9 @@ def cached(name: str, fetch):
     except Exception as e:  # noqa: BLE001 - any failure falls back to cache
         if path.exists():
             old = json.loads(path.read_text())
-            warn(f"{name}: fetch failed ({e}); using copy from {old['fetched']}")
+            warn(f"{name}: falló la descarga ({e}); se usa la copia del {old['fetched']}")
             return old["data"], old["fetched"]
-        warn(f"{name}: fetch failed ({e}) and no cached copy")
+        warn(f"{name}: falló la descarga ({e}) y no hay copia guardada")
         return None, None
 
 
@@ -95,7 +95,7 @@ def fetch_fred() -> dict:
 
 
 TREASURY_COLS = {"tbill_1m": "1 Mo", "tbill_3m": "3 Mo", "tbill_6m": "6 Mo",
-                 "tbill_1y": "1 Yr", "ust_2y": "2 Yr", "ust_10y": "10 Yr"}
+                 "tbill_1y": "1 Yr", "ust_2y": "2 Yr", "ust_5y": "5 Yr", "ust_10y": "10 Yr"}
 
 
 def fetch_us() -> dict:
@@ -142,6 +142,25 @@ def fetch_us_official() -> dict:
     return out
 
 
+def fetch_fix_long() -> list:
+    """USD/MXN FIX since 2014, to measure how the peso moves around elections."""
+    token = os.environ.get("BANXICO_TOKEN", "").strip()
+    if not token:
+        raise RuntimeError("BANXICO_TOKEN is not set")
+    url = f"https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718/datos/2014-01-01/{TODAY.isoformat()}"
+    j = get(url, headers={"Bmx-Token": token, "Accept": "application/json"}).json()
+    pts = []
+    for d in j["bmx"]["series"][0].get("datos") or []:
+        v = d["dato"].replace(",", "")
+        if v in ("N/E", ""):
+            continue
+        dd, mm, yy = d["fecha"].split("/")
+        pts.append([f"{yy}-{mm}-{dd}", float(v)])
+    if len(pts) < 1000:
+        raise RuntimeError("FIX history too short")
+    return pts
+
+
 def fetch_banxico() -> dict:
     token = os.environ.get("BANXICO_TOKEN", "").strip()
     if not token:
@@ -156,7 +175,7 @@ def fetch_banxico() -> dict:
     for key, spec in series.items():
         s = by_id.get(spec["id"])
         if not s:
-            warn(f"Banxico series {spec['id']} ({key}) missing from response")
+            warn(f"La serie de Banxico {spec['id']} ({key}) no vino en la respuesta")
             continue
         pts = []
         for d in s.get("datos") or []:
@@ -385,7 +404,7 @@ def empirical_basis(bill: dict | None, policy_pts: list, change_dates: list[str]
         if vals:
             spreads.append(y - sum(vals) / len(vals))
     if len(spreads) < 10:
-        warn(f"too little history to measure the usual spread for a {h}-day bill; assuming 0")
+        warn(f"No hay suficiente historia para medir el diferencial usual del instrumento a {h} días; se asume 0")
         return 0.0, 0.0
     spreads.sort()
     n = len(spreads)
@@ -397,8 +416,8 @@ def norm_cdf(x: float) -> float:
     return 0.5 * (1 + math.erf(x / math.sqrt(2)))
 
 
-FX_HORIZONS = [("1 month", 30, "cetes_28", "tbill_1m"), ("3 months", 91, "cetes_91", "tbill_3m"),
-               ("6 months", 182, "cetes_182", "tbill_6m"), ("1 year", 364, "cetes_364", "tbill_1y")]
+FX_HORIZONS = [("1 mes", 30, "cetes_28", "tbill_1m"), ("3 meses", 91, "cetes_91", "tbill_3m"),
+               ("6 meses", 182, "cetes_182", "tbill_6m"), ("1 año", 364, "cetes_364", "tbill_1y")]
 
 
 def fx_outlook(fix: dict | None, bmx: dict, us: dict, elections: list[dict]) -> dict | None:
@@ -439,6 +458,106 @@ def fx_outlook(fix: dict | None, bmx: dict, us: dict, elections: list[dict]) -> 
     return {"spot": spot, "spot_date": spot_date, "vol_annual": round(vol * 100, 2), "horizons": out}
 
 
+ELECTION_WINDOW = (5, 10)   # days before / after election day
+
+
+def election_fx(fix_long: list | None, fx: dict | None, bmx: dict, us: dict,
+                elections: list[dict], history: dict) -> dict | None:
+    """Odds for USD/MXN around each upcoming election.
+
+    1. From the FIX since 2014, measure the normal 15-day move and the move in
+       the same window around past elections in each country.
+    2. Extra election variance = (election-window variance - normal variance).
+    3. For each upcoming election: lognormal around the forward to 10 days after
+       election day, with normal variance plus that extra variance.
+    """
+    if not fix_long or not fx:
+        return None
+    pts = [(dt.date.fromisoformat(d), v) for d, v in fix_long]
+
+    def at(day):
+        v = None
+        for d, x in pts:
+            if d > day:
+                break
+            v = x
+        return v
+
+    b, a = ELECTION_WINDOW
+    normal = []
+    day = pts[0][0] + dt.timedelta(days=b)
+    while day + dt.timedelta(days=a) < pts[-1][0]:
+        x0, x1 = at(day - dt.timedelta(days=b)), at(day + dt.timedelta(days=a))
+        if x0 and x1:
+            normal.append(math.log(x1 / x0))
+        day += dt.timedelta(days=5)
+    normal_var = sum(m * m for m in normal) / len(normal)
+
+    stats = {}
+    for country in ("MX", "US"):
+        moves = []
+        for d in history.get(country, []):
+            e = dt.date.fromisoformat(d)
+            if e + dt.timedelta(days=a) > pts[-1][0] or e - dt.timedelta(days=b) < pts[0][0]:
+                continue
+            moves.append({"date": d, "move_pct": round(math.log(at(e + dt.timedelta(days=a)) /
+                                                             at(e - dt.timedelta(days=b))) * 100, 2)})
+        if moves:
+            ev = sum((m["move_pct"] / 100) ** 2 for m in moves) / len(moves)
+            stats[country] = {"moves": moves, "election_sd_pct": round(math.sqrt(ev) * 100, 2),
+                              "extra_var": max(0.0, ev - normal_var)}
+    spot, vol = fx["spot"], fx["vol_annual"] / 100
+
+    def rates_for(days):
+        for limit, mx_key, us_key in ((45, "cetes_28", "tbill_1m"), (120, "cetes_91", "tbill_3m"),
+                                      (270, "cetes_182", "tbill_6m"), (500, "cetes_364", "tbill_1y"),
+                                      (1100, "cetes_728", "ust_2y"), (10 ** 6, "bono_5y", "ust_5y")):
+            if days <= limit:
+                return latest(bmx.get(mx_key)), latest(us.get(us_key))
+
+    def odds(fwd, var):
+        sd = math.sqrt(var)
+        mu = math.log(fwd / spot) - var / 2
+        return {"p_usd_up": round(1 - norm_cdf(-mu / sd), 3),
+                "p_up_5": round(1 - norm_cdf((math.log(1.05) - mu) / sd), 3),
+                "p_down_5": round(norm_cdf((math.log(0.95) - mu) / sd), 3),
+                "range80": [round(spot * math.exp(mu - 1.2816 * sd), 2), round(spot * math.exp(mu + 1.2816 * sd), 2)]}
+
+    out = []
+    for e in elections:
+        if e["days_until"] < 0 or e["country"] not in stats:
+            continue
+        days = e["days_until"] + a
+        mx, usr = rates_for(days)
+        if not mx or not usr:
+            continue
+        t = days / 365
+        fwd = spot * (1 + mx["value"] / 100) ** t / (1 + usr["value"] / 100) ** t
+        base = vol * vol * t
+        with_e = odds(fwd, base + stats[e["country"]]["extra_var"])
+        without = odds(fwd, base)
+        # Election-week risk: the 15-day move around election day, centred on 0.
+        esd = stats[e["country"]]["election_sd_pct"] / 100
+        nsd = math.sqrt(normal_var)
+        week = {
+            "sd_pct": round(esd * 100, 2), "normal_sd_pct": round(nsd * 100, 2),
+            "p_big5": round(2 * (1 - norm_cdf(math.log(1.05) / esd)), 3),
+            "p_big5_normal": round(2 * (1 - norm_cdf(math.log(1.05) / nsd)), 3),
+            "p_weaker3": round(1 - norm_cdf(math.log(1.03) / esd), 3),
+            "p_stronger3": round(norm_cdf(math.log(0.97) / esd), 3),
+            "range80_pct": [round((math.exp(-1.2816 * esd) - 1) * 100, 1), round((math.exp(1.2816 * esd) - 1) * 100, 1)],
+        }
+        out.append({"week": week, "id": e["id"], "name": e["name"], "country": e["country"], "date": e["date"],
+                    "days_until": e["days_until"], "horizon_days": days, "forward": round(fwd, 2),
+                    "with_election": with_e, "without_election": without,
+                    "p_big_move": round(with_e["p_up_5"] + with_e["p_down_5"], 3),
+                    "p_big_move_base": round(without["p_up_5"] + without["p_down_5"], 3)})
+    return {"normal_sd_pct": round(math.sqrt(normal_var) * 100, 2),
+            "window": f"{b} días antes a {a} días después",
+            "history": {k: {kk: vv for kk, vv in v.items() if kk != "extra_var"} for k, v in stats.items()},
+            "elections": out}
+
+
 def next_after(dates: list[str]) -> str | None:
     return next((d for d in dates if d >= TODAY.isoformat()), None)
 
@@ -460,13 +579,14 @@ def main() -> int:
     bmx, bmx_at = cached("banxico", fetch_banxico)
     fomc, fomc_at = cached("fomc_calendar", fetch_fomc)
     bxcal, bxcal_at = cached("banxico_calendar", fetch_banxico_calendar)
+    fix_long, _ = cached("fix_long", fetch_fix_long)
     fred, bmx = fred or {}, bmx or {}
 
     # Flag Banxico series whose title doesn't look like what we expect.
     for key, spec in CONFIG["banxico_series"].items():
         s = bmx.get(key)
         if s and spec["expect"].lower() not in s.get("title", "").lower():
-            warn(f"Banxico series {spec['id']} ({key}) is titled '{s['title']}'; check the ID in config.json")
+            warn(f"La serie de Banxico {spec['id']} ({key}) se llama '{s['title']}'; revisa el ID en config.json")
 
     # --- calendars ---------------------------------------------------------
     fed_dates = sorted({m["date"] for m in (fomc or [])} |
@@ -475,7 +595,7 @@ def main() -> int:
     bx_years.update(bxcal or {})
     bx_dates = sorted({d for v in bx_years.values() for d in v})
     if str(TODAY.year + 1) not in bx_years and TODAY.month >= 12:
-        warn(f"Banxico's {TODAY.year + 1} calendar isn't published or parsed yet")
+        warn(f"El calendario {TODAY.year + 1} de Banxico aún no se publica o no se pudo leer")
 
     # --- policy rates ------------------------------------------------------
     fed_up, fed_lo = latest(fred.get("fed_upper")), latest(fred.get("fed_lower"))
@@ -516,7 +636,7 @@ def main() -> int:
                                next_after(bx_dates))
     for name, o in (("Fed", fed_odds), ("Banxico", bx_odds)):
         if o and (TODAY - dt.date.fromisoformat(o["instrument_date"])).days > 10:
-            warn(f"{name} odds use a yield from {o['instrument_date']}, more than 10 days old")
+            warn(f"Las probabilidades de {name} usan un rendimiento del {o['instrument_date']}, con más de 10 días")
 
     # --- investments table ---------------------------------------------------
     rows = [
@@ -536,12 +656,13 @@ def main() -> int:
     # Mexico vs US yield for each term, as published (no averaging).
     tasa = []
     for label, mx_key, mx_name, us_key, us_name in (
-            ("1 month", "cetes_28", "CETES 28d", "tbill_1m", "T-bill 1M"),
-            ("3 months", "cetes_91", "CETES 91d", "tbill_3m", "T-bill 3M"),
-            ("6 months", "cetes_182", "CETES 182d", "tbill_6m", "T-bill 6M"),
-            ("1 year", "cetes_364", "CETES 364d", "tbill_1y", "Treasury 1Y"),
-            ("2 years", "cetes_728", "CETES 728d", "ust_2y", "Treasury 2Y"),
-            ("10 years", "bono_10y", "Bono M 10Y", "ust_10y", "Treasury 10Y")):
+            ("1 mes", "cetes_28", "CETES 28 días", "tbill_1m", "T-bill 1 mes"),
+            ("3 meses", "cetes_91", "CETES 91 días", "tbill_3m", "T-bill 3 meses"),
+            ("6 meses", "cetes_182", "CETES 182 días", "tbill_6m", "T-bill 6 meses"),
+            ("1 año", "cetes_364", "CETES 364 días", "tbill_1y", "Treasury 1 año"),
+            ("2 años", "cetes_728", "CETES 728 días", "ust_2y", "Treasury 2 años"),
+            ("5 años", "bono_5y", "Bono M 5 años", "ust_5y", "Treasury 5 años"),
+            ("10 años", "bono_10y", "Bono M 10 años", "ust_10y", "Treasury 10 años")):
         tasa.append({"label": label, "mx_name": mx_name, "mx": latest(bmx.get(mx_key)),
                      "us_name": us_name, "us": latest(fred.get(us_key))})
     bx_chg = changes(bx_pts)
@@ -550,6 +671,7 @@ def main() -> int:
     for e in elections:
         e["days_until"] = (dt.date.fromisoformat(e["date"]) - TODAY).days
     fx = fx_outlook(bmx.get("usdmxn_fix"), bmx, fred, elections)
+    efx = election_fx(fix_long, fx, bmx, fred, elections, CONFIG.get("elections_history", {}))
 
     out = {
         "generated": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
@@ -577,6 +699,7 @@ def main() -> int:
         "investments": rows,
         "tasa_actual": tasa,
         "fx": fx,
+        "election_fx": efx,
         "elections": elections,
         "history": {
             "fed_upper": step_series(fed_pts),
