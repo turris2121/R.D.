@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T14:09+00:00",
+ "generated": "2026-11-24T14:10+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
@@ -1080,6 +1080,7 @@
   ]
  },
  "warnings": [
+  "banxico: fetch failed (BANXICO_TOKEN is not set); using copy from 2026-11-24",
   "GBM Smart Cash rate is not set, so Tasa objetivo can't be computed"
  ]
 }
