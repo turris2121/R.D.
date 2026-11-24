@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T14:10+00:00",
+ "generated": "2026-11-24T14:19+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
@@ -872,7 +872,13 @@
  ],
  "gbm_smart_cash": {
   "rate": null,
-  "as_of": null
+  "as_of": null,
+  "source": null
+ },
+ "nu_cajitas": {
+  "rate": null,
+  "as_of": null,
+  "source": null
  },
  "tasa_objetivo": null,
  "history": {
