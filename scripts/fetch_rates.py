@@ -528,14 +528,20 @@ def main() -> int:
         pair("3 months", "tbill_3m", "cetes_91", fred, bmx, "T-bill 3M", "CETES 91d"),
         pair("6 months", "tbill_6m", "cetes_182", fred, bmx, "T-bill 6M", "CETES 182d"),
         pair("1 year", "tbill_1y", "cetes_364", fred, bmx, "Treasury 1Y", "CETES 364d"),
+        pair("2 years", "ust_2y", "cetes_728", fred, bmx, "Treasury 2Y", "CETES 728d"),
         pair("10 years", "ust_10y", "bono_10y", fred, bmx, "Treasury 10Y", "Bono M 10Y"),
     ]
 
     # --- tasa objetivo -------------------------------------------------------
     gbm = CONFIG["gbm_smart_cash"]
-    tasa = None
-    if gbm.get("rate") is not None and bx_target:
-        tasa = round((float(gbm["rate"]) + bx_target["value"]) / 2, 3)
+    # One per CETES term: (GBM Smart Cash + CETES) / 2.
+    tasa = []
+    for label, key in (("1 month", "cetes_28"), ("3 months", "cetes_91"), ("6 months", "cetes_182"),
+                       ("1 year", "cetes_364"), ("2 years", "cetes_728")):
+        c = latest(bmx.get(key))
+        tasa.append({"label": label, "cetes_name": f"CETES {key.split('_')[1]}d", "cetes": c,
+                     "value": round((float(gbm["rate"]) + c["value"]) / 2, 3)
+                     if gbm.get("rate") is not None and c else None})
     nu = CONFIG.get("nu_cajitas", {})
     if gbm.get("rate") is None:
         warn("GBM Smart Cash rate is not set, so Tasa objetivo can't be computed")

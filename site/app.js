@@ -17,6 +17,7 @@ function render(D) {
   if (D.warnings.length) {
     $("warnings").innerHTML = `<div class="warn-box" role="status"><b>⚠ ${D.warnings.length} data warning${D.warnings.length > 1 ? "s" : ""}</b><ul>${D.warnings.map((w) => `<li>${esc(w)}</li>`).join("")}</ul></div>`;
   }
+  renderTasa(D);
   renderKpis(D);
   $("fed").innerHTML = bankPanel("🇺🇸 Federal Reserve (Fed)", D.fed, D, {
     rate: D.fed.upper ? `${val(D.fed.lower)} – ${val(D.fed.upper)}` : "—",
@@ -26,7 +27,7 @@ function render(D) {
   });
   $("banxico").innerHTML = bankPanel("🇲🇽 Banco de México (Banxico)", D.banxico, D, {
     rate: val(D.banxico.target),
-    rateNote: "Tasa objetivo de Banxico (overnight interbank target)",
+    rateNote: "Banxico policy target (overnight interbank rate)",
     instrument: (o) => `CETES ${o.instrument_days}d ${pct(o.instrument_yield)} vs target ${pct(o.policy_rate)}`,
     meetings: D.banxico.meetings.map((m) => ({ date: m.date, note: "" })),
   });
@@ -38,14 +39,20 @@ function render(D) {
   renderInvestments(D);
 }
 
+function renderTasa(D) {
+  const g = D.gbm_smart_cash;
+  $("tasa-sub").textContent = g.rate == null ? "Needs the GBM Smart Cash rate" :
+    `(GBM Smart Cash ${pct(g.rate)} + CETES) ÷ 2 · GBM as of ${fmtDate(g.as_of)}`;
+  $("tasa").innerHTML = D.tasa_objetivo.map((t) => `<div class="kpi hero">
+      <div class="l">${t.label}</div><div class="v">${pct(t.value)}</div>
+      <div class="s">${t.cetes ? `${t.cetes_name} ${pct(t.cetes.value)} · ${fmtDate(t.cetes.date, { day: "numeric", month: "short" })}` : `${t.cetes_name} unavailable`}</div></div>`).join("");
+}
+
 function renderKpis(D) {
   const pol = D.investments[0];
   const g = D.gbm_smart_cash;
   const kpi = (l, v, s, cls = "") => `<div class="kpi ${cls}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
   $("kpis").innerHTML = [
-    kpi("Tasa objetivo", pct(D.tasa_objetivo, 2),
-      g.rate == null ? "Set the GBM Smart Cash rate to compute" :
-        `Mean of GBM Smart Cash ${pct(g.rate)} and Banxico ${val(D.banxico.target)}`, "hero"),
     kpi("Fed funds target", D.fed.upper ? `${D.fed.lower.value.toFixed(2)}–${D.fed.upper.value.toFixed(2)}%` : "—",
       `Next decision ${fmtDate(D.fed.next_meeting)}`),
     kpi("Banxico target", val(D.banxico.target), `Next decision ${fmtDate(D.banxico.next_meeting)}`),
@@ -206,8 +213,7 @@ function renderInvestments(D) {
     const src = /^https?:\/\//.test(r.source || "") ? `<a href="${esc(r.source)}">source</a>` : esc(r.source || "no source yet");
     return `<tr><td>${name}<span class="nm">${note} · ${src}</span></td><td class="r">—</td>${r.rate == null ? '<td class="r">—</td>' : `<td class="r">${pct(r.rate)}<span class="nm">${fmtDate(r.as_of, { day: "numeric", month: "short" })}</span></td>`}<td class="r">—</td><td class="r">—</td></tr>`;
   };
-  const gbmRow = manual("GBM Smart Cash", g, "Updated weekly") + manual("Nu Cajitas", D.nu_cajitas, "Instant access, updated weekly") +
-    `<tr class="hl"><td>Tasa objetivo<span class="nm">(GBM Smart Cash + Banxico target) ÷ 2</span></td><td class="r">—</td><td class="r">${pct(D.tasa_objetivo)}</td><td class="r">—</td><td class="r">—</td></tr>`;
+  const gbmRow = manual("GBM Smart Cash", g, "Updated weekly") + manual("Nu Cajitas", D.nu_cajitas, "Instant access, updated weekly");
   $("inv").innerHTML = `<thead><tr><th>Maturity</th><th class="r">🇺🇸 US</th><th class="r">🇲🇽 Mexico</th><th class="r">Spread</th><th class="r">Relative</th></tr></thead><tbody>${rows}${gbmRow}</tbody>`;
 }
 

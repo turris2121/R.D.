@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T14:24+00:00",
+ "generated": "2026-11-24T14:39+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
@@ -729,6 +729,7 @@
    "cetes_91": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 91 días",
    "cetes_182": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 182 días",
    "cetes_364": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 364 días",
+   "cetes_728": "Valores gubernamentales Resultados de la subasta semanal , Tasa de rendimiento Cetes a 728 días",
    "bono_10y": "Valores Gubernamentales    Resultados de la subasta semanal Tasa de rendimiento  Bono tasa fija 10 años",
    "usdmxn_fix": "Tipo de cambio                                          Pesos por dólar E.U.A. Tipo de cambio para solventar obligaciones denominadas en moneda extranjera Fecha de determinación (FIX)"
   }
@@ -855,6 +856,21 @@
    "relative_pct": 52.1
   },
   {
+   "label": "2 years",
+   "us_name": "Treasury 2Y",
+   "mx_name": "CETES 728d",
+   "us": {
+    "date": "2026-11-23",
+    "value": 4.63
+   },
+   "mx": {
+    "date": "2026-11-19",
+    "value": 7.87
+   },
+   "spread_pp": 3.24,
+   "relative_pct": 70.0
+  },
+  {
    "label": "10 years",
    "us_name": "Treasury 10Y",
    "mx_name": "Bono M 10Y",
@@ -880,7 +896,53 @@
   "as_of": null,
   "source": null
  },
- "tasa_objetivo": null,
+ "tasa_objetivo": [
+  {
+   "label": "1 month",
+   "cetes_name": "CETES 28d",
+   "cetes": {
+    "date": "2026-11-19",
+    "value": 6.19
+   },
+   "value": null
+  },
+  {
+   "label": "3 months",
+   "cetes_name": "CETES 91d",
+   "cetes": {
+    "date": "2026-11-19",
+    "value": 6.49
+   },
+   "value": null
+  },
+  {
+   "label": "6 months",
+   "cetes_name": "CETES 182d",
+   "cetes": {
+    "date": "2026-11-19",
+    "value": 6.67
+   },
+   "value": null
+  },
+  {
+   "label": "1 year",
+   "cetes_name": "CETES 364d",
+   "cetes": {
+    "date": "2026-11-12",
+    "value": 6.95
+   },
+   "value": null
+  },
+  {
+   "label": "2 years",
+   "cetes_name": "CETES 728d",
+   "cetes": {
+    "date": "2026-11-19",
+    "value": 7.87
+   },
+   "value": null
+  }
+ ],
  "fx": {
   "spot": 19.1648,
   "spot_date": "2026-11-23",

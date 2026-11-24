@@ -94,10 +94,10 @@ def build() -> str:
     if up:
         lines += ["", "<b>Elections</b>"] + [f"{'🇲🇽' if x['country'] == 'MX' else '🇺🇸'} {e(x['name'])}: {x['date']} (in {x['days_until']} days)" for x in up]
     g = D["gbm_smart_cash"]
-    lines += ["",
-              f"<b>Tasa objetivo: {pct(D['tasa_objetivo'], 3)}</b>",
-              f"= mean of GBM Smart Cash {pct(g['rate'])} (as of {g['as_of'] or 'never'}) "
-              f"and Banxico {val(b['target'])}"]
+    lines += ["", f"<b>Tasa objetivo</b> = (GBM Smart Cash {pct(g['rate'])} + CETES) ÷ 2"]
+    for t in D["tasa_objetivo"]:
+        cv = f"{t['cetes']['value']:.2f}%" if t["cetes"] else "n/a"
+        lines.append(f"{t['label']}: <b>{pct(t['value'])}</b> ({t['cetes_name']} {cv})")
     n = D.get("nu_cajitas") or {}
     if n.get("rate") is not None:
         lines.append(f"Nu Cajitas (instant access): {pct(n['rate'])} (as of {n['as_of']})")

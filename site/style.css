@@ -55,7 +55,7 @@ a { color: var(--accent); }
 .warn-box ul { margin: 4px 0 0; padding-left: 18px; }
 
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 16px; }
-@media (max-width: 420px) { .kpis { grid-template-columns: 1fr 1fr; gap: 8px; } .kpi { padding: 10px 12px; } .kpi .v { font-size: 20px; } }
+@media (max-width: 420px) { .kpis { grid-template-columns: 1fr 1fr; gap: 8px; } .kpi { padding: 10px 12px; } .kpi .v { font-size: 20px; white-space: nowrap; } }
 .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
 .kpi .l { color: var(--text-2); font-size: 13px; }
 .kpi .v { font-size: 26px; font-weight: 650; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin: 2px 0; }
@@ -154,3 +154,6 @@ table.grid th .nm { font-weight: 400; }
   table.fx td[data-l] .nm { display: inline; margin-left: 6px; }
   table.fx td.rangecell { width: 100%; padding-top: 6px; }
 }
+
+.kpis.tasa { margin-bottom: 0; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.kpis.tasa .kpi { background: var(--bg); }
