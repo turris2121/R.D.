@@ -83,6 +83,16 @@ def build() -> str:
             continue
         lines.append(f"{e(r['label'])}: {r['mx']['value']:.2f}% vs {r['us']['value']:.2f}% "
                      f"→ {r['spread_pp']:+.2f} pp ({r['relative_pct']:+.0f}%)")
+    fx = D.get("fx")
+    if fx and fx["horizons"]:
+        lines += ["", f"<b>USD/MXN</b> {fx['spot']:.4f} (vol {fx['vol_annual']:.1f}%/yr)"]
+        for h in fx["horizons"]:
+            ev = f" · {', '.join(h['events'])}" if h["events"] else ""
+            lines.append(f"{h['label']}: fwd {h['forward']:.2f}, peso weaker {h['p_usd_up']:.0%}, "
+                         f"±5%: {h['p_up_5']:.0%}↑ / {h['p_down_5']:.0%}↓, range {h['range80'][0]:.2f}–{h['range80'][1]:.2f}{e(ev)}")
+    up = [x for x in D.get("elections", []) if x["days_until"] >= 0][:3]
+    if up:
+        lines += ["", "<b>Elections</b>"] + [f"{'🇲🇽' if x['country'] == 'MX' else '🇺🇸'} {e(x['name'])}: {x['date']} (in {x['days_until']} days)" for x in up]
     g = D["gbm_smart_cash"]
     lines += ["",
               f"<b>Tasa objetivo: {pct(D['tasa_objetivo'], 3)}</b>",
@@ -91,8 +101,6 @@ def build() -> str:
     n = D.get("nu_cajitas") or {}
     if n.get("rate") is not None:
         lines.append(f"Nu Cajitas (instant access): {pct(n['rate'])} (as of {n['as_of']})")
-    if b.get("usdmxn"):
-        lines.append(f"USD/MXN FIX: {b['usdmxn']['value']:.4f}")
     if D["warnings"]:
         lines += ["", "⚠️ " + "\n⚠️ ".join(e(w) for w in D["warnings"][:6])]
     url = os.environ.get("DASHBOARD_URL")

@@ -5,7 +5,9 @@ A self-updating dashboard comparing US and Mexico interest rates:
 - **A. Calendars:** every FOMC (Fed) and Banxico decision date, with past decisions marked cut / hold / hike.
 - **B. Investment rates:** policy rate, overnight, 1M, 3M, 6M, 1Y and 10Y, US vs Mexico, with the spread in percentage points and in relative %.
 - **C. Odds** of a cut, hold or hike at each bank's next meeting, estimated from bill yields.
-- **D. Tasa objetivo** = (GBM Smart Cash rate + Banxico target) ÷ 2.
+- **D. Tasa objetivo** = (GBM Smart Cash rate + Banxico target) ÷ 2. The Nu Cajitas instant-access rate is shown next to it.
+- **USD/MXN odds** for 1, 3, 6 and 12 months: the forward rate, the chance the peso weakens, the chance of a move of 5% or more either way, and an 80% likely range.
+- **Elections:** countdowns to the Mexico midterm (6 Jun 2027), the US presidential election (7 Nov 2028), the Mexico presidential election (2 Jun 2030) and the US midterm (5 Nov 2030). Dates live in `config.json → elections`.
 
 Every day at 13:00 UTC (07:00 Mexico City) a GitHub Action runs `scripts/fetch_rates.py`, commits the new data and redeploys the site to GitHub Pages. **On Mondays it also sends the summary to Telegram.**
 
@@ -72,6 +74,15 @@ Each reading also gets a **signal** label:
 - **weak:** the gap is within normal noise. Read it as a hold.
 
 This is a rough estimate. Bill yields also move with supply, tax and liquidity, and when a meeting falls late in a bill's life small yield moves are magnified. CME's FedWatch uses fed funds futures and is more precise, but CME doesn't allow automated access. Use it to cross-check.
+
+## How the USD/MXN odds are estimated
+
+```
+forward = FIX × (1 + CETES × days/360) ÷ (1 + T-bill × days/360)
+ln(future / today) ~ Normal(ln(forward / today) − σ²t/2, σ²t)
+```
+
+Here σ is the realized annual volatility of the FIX over the last 252 trading days, and t is the horizon in years. The forward is what the market prices in, not a forecast. Because of the carry (the rate gap), the peso has historically often done better than its forward, so the odds of a weaker peso may be overstated. Options-implied volatility would give a better width, but no free source exists.
 
 ## Run locally
 

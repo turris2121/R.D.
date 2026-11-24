@@ -30,6 +30,8 @@ function render(D) {
     instrument: (o) => `CETES ${o.instrument_days}d ${pct(o.instrument_yield)} vs target ${pct(o.policy_rate)}`,
     meetings: D.banxico.meetings.map((m) => ({ date: m.date, note: "" })),
   });
+  renderFx(D);
+  renderElections(D);
   renderChart(D);
   let lastW = $("chart").clientWidth;
   addEventListener("resize", () => { const w = $("chart").clientWidth; if (Math.abs(w - lastW) > 30) { lastW = w; renderChart(D); } });
@@ -207,4 +209,43 @@ function renderInvestments(D) {
   const gbmRow = manual("GBM Smart Cash", g, "Updated weekly") + manual("Nu Cajitas", D.nu_cajitas, "Instant access, updated weekly") +
     `<tr class="hl"><td>Tasa objetivo<span class="nm">(GBM Smart Cash + Banxico target) ÷ 2</span></td><td class="r">—</td><td class="r">${pct(D.tasa_objetivo)}</td><td class="r">—</td><td class="r">—</td></tr>`;
   $("inv").innerHTML = `<thead><tr><th>Maturity</th><th class="r">🇺🇸 US</th><th class="r">🇲🇽 Mexico</th><th class="r">Spread</th><th class="r">Relative</th></tr></thead><tbody>${rows}${gbmRow}</tbody>`;
+}
+
+// ------------------------------------------------------------- USD/MXN ----
+function renderFx(D) {
+  const F = D.fx;
+  if (!F || !F.horizons.length) { $("fx").innerHTML = '<tr><td class="muted">Needs Banxico data.</td></tr>'; return; }
+  $("fx-sub").textContent = `FIX ${F.spot.toFixed(4)} on ${fmtDate(F.spot_date)} · volatility ${F.vol_annual.toFixed(1)}% a year`;
+  const lo = Math.min(...F.horizons.map((h) => h.range80[0]), F.spot), hi = Math.max(...F.horizons.map((h) => h.range80[1]), F.spot);
+  const pos = (v) => ((v - lo) / (hi - lo)) * 100;
+  const p = (v) => `${(v * 100).toFixed(0)}%`;
+  const rows = F.horizons.map((h) => `<tr>
+      <td>${h.label}<span class="nm">CETES ${h.mx_rate.toFixed(2)}% · T-bill ${h.us_rate.toFixed(2)}%</span></td>
+      <td class="r" data-l="Forward"><span>${h.forward.toFixed(2)}<span class="nm">${h.forward_pct >= 0 ? "+" : ""}${h.forward_pct.toFixed(1)}%</span></span></td>
+      <td class="r" data-l="Peso weaker"><b>${p(h.p_usd_up)}</b></td>
+      <td class="r" data-l="USD/MXN +5% or more">${p(h.p_up_5)}</td>
+      <td class="r" data-l="USD/MXN −5% or more">${p(h.p_down_5)}</td>
+      <td class="rangecell"><div class="range" title="80% of outcomes: ${h.range80[0]} to ${h.range80[1]}">
+        <span class="band" style="left:${pos(h.range80[0])}%;width:${pos(h.range80[1]) - pos(h.range80[0])}%"></span>
+        <span class="spot" style="left:${pos(F.spot)}%"></span>
+        <span class="fwd" style="left:${pos(h.forward)}%"></span></div>
+        <div class="range-lbl"><span>${h.range80[0].toFixed(2)}</span><span>${h.range80[1].toFixed(2)}</span></div></td>
+      <td data-l="Elections in window">${h.events.length ? h.events.map((e) => `<span class="pill">${esc(e)}</span>`).join(" ") : '<span class="muted">—</span>'}</td>
+    </tr>`).join("");
+  $("fx").innerHTML = `<thead><tr><th>Horizon</th><th class="r">Forward</th><th class="r">Peso weaker<span class="nm">USD/MXN higher</span></th>
+    <th class="r">USD/MXN +5% or more</th><th class="r">USD/MXN −5% or more</th>
+    <th>80% likely range <span class="nm"><span class="key-spot"></span>today · <span class="key-fwd"></span>forward</span></th><th>Elections in window</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+// ------------------------------------------------------------ elections ----
+function renderElections(D) {
+  const E = D.elections || [];
+  const flag = { MX: "🇲🇽", US: "🇺🇸" };
+  const span = (d) => d >= 365 ? `${(d / 365).toFixed(1)} years` : d >= 60 ? `${Math.round(d / 30.4)} months` : `${d} days`;
+  $("elections").innerHTML = E.map((e) => `<div class="elec ${e.days_until < 0 ? "past" : ""}">
+      <div class="elec-top"><span class="flag">${flag[e.country] || ""}</span><span class="t">${esc(e.name)}</span></div>
+      <div class="elec-date">${fmtDate(e.date, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}</div>
+      <div class="elec-cd">${e.days_until < 0 ? "Held" : `in ${span(e.days_until)}`}<span class="muted"> · ${e.days_until >= 0 ? e.days_until.toLocaleString() + " days" : ""}</span></div>
+      <div class="muted">${esc(e.detail || "")}</div>
+    </div>`).join("") || '<p class="muted">No elections configured.</p>';
 }

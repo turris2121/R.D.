@@ -120,3 +120,37 @@ table.grid tr.hl td { background: var(--surface-2); font-weight: 600; }
 .tbl-toggle summary { cursor: pointer; }
 .notes { margin: 8px 0 0; padding-left: 18px; color: var(--text-2); }
 .notes li { margin-bottom: 6px; }
+
+/* USD/MXN */
+table.fx td.rangecell { min-width: 180px; width: 30%; }
+.range { position: relative; height: 14px; background: var(--surface-2); border-radius: 4px; }
+.range .band { position: absolute; top: 3px; height: 8px; background: var(--accent); opacity: .35; border-radius: 4px; }
+.range .spot { position: absolute; top: -2px; width: 2px; height: 18px; margin-left: -1px; background: var(--text); }
+.range .fwd { position: absolute; top: 3px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--surface); }
+.range-lbl { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.key-spot { display: inline-block; width: 2px; height: 10px; background: var(--text); vertical-align: -1px; margin-right: 4px; }
+.key-fwd { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin: 0 4px 0 6px; }
+table.grid th .nm { font-weight: 400; }
+
+/* elections */
+.elections { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.elec { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: var(--bg); display: grid; gap: 3px; }
+.elec.past { opacity: .6; }
+.elec-top { display: flex; gap: 8px; align-items: center; }
+.elec-top .flag { font-size: 18px; }
+.elec-top .t { font-weight: 600; }
+.elec-date { font-variant-numeric: tabular-nums; color: var(--text-2); }
+.elec-cd { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; }
+.elec-cd .muted { font-size: 12px; font-weight: 400; letter-spacing: 0; }
+
+@media (max-width: 600px) {
+  table.fx thead { display: none; }
+  table.fx, table.fx tbody, table.fx tr, table.fx td { display: block; width: 100%; }
+  table.fx tr { border-bottom: 1px solid var(--border); padding: 8px 0; }
+  table.fx td { border: 0; padding: 3px 0; white-space: normal; }
+  table.fx td:first-child { font-weight: 650; font-size: 15px; }
+  table.fx td[data-l] { display: flex; justify-content: space-between; gap: 12px; text-align: right; }
+  table.fx td[data-l]::before { content: attr(data-l); color: var(--text-2); text-align: left; }
+  table.fx td[data-l] .nm { display: inline; margin-left: 6px; }
+  table.fx td.rangecell { width: 100%; padding-top: 6px; }
+}

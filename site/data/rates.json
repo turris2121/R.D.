@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T14:19+00:00",
+ "generated": "2026-11-24T14:22+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
@@ -881,6 +881,117 @@
   "source": null
  },
  "tasa_objetivo": null,
+ "fx": {
+  "spot": 19.1648,
+  "spot_date": "2026-11-23",
+  "vol_annual": 8.53,
+  "horizons": [
+   {
+    "label": "1 month",
+    "days": 30,
+    "forward": 19.1965,
+    "forward_pct": 0.17,
+    "p_usd_up": 0.522,
+    "p_up_5": 0.026,
+    "p_down_5": 0.016,
+    "range80": [
+     18.6,
+     19.8
+    ],
+    "mx_rate": 6.19,
+    "us_rate": 4.2,
+    "events": []
+   },
+   {
+    "label": "3 months",
+    "days": 91,
+    "forward": 19.2664,
+    "forward_pct": 0.53,
+    "p_usd_up": 0.541,
+    "p_up_5": 0.149,
+    "p_down_5": 0.096,
+    "range80": [
+     18.23,
+     20.33
+    ],
+    "mx_rate": 6.49,
+    "us_rate": 4.37,
+    "events": []
+   },
+   {
+    "label": "6 months",
+    "days": 182,
+    "forward": 19.3752,
+    "forward_pct": 1.1,
+    "p_usd_up": 0.56,
+    "p_up_5": 0.255,
+    "p_down_5": 0.158,
+    "range80": [
+     17.9,
+     20.89
+    ],
+    "mx_rate": 6.67,
+    "us_rate": 4.45,
+    "events": []
+   },
+   {
+    "label": "1 year",
+    "days": 364,
+    "forward": 19.6056,
+    "forward_pct": 2.3,
+    "p_usd_up": 0.589,
+    "p_up_5": 0.364,
+    "p_down_5": 0.204,
+    "range80": [
+     17.51,
+     21.79
+    ],
+    "mx_rate": 6.95,
+    "us_rate": 4.57,
+    "events": [
+     "Mexico midterm election"
+    ]
+   }
+  ]
+ },
+ "elections": [
+  {
+   "id": "mx_mid_2027",
+   "country": "MX",
+   "name": "Mexico midterm election",
+   "date": "2027-06-06",
+   "detail": "All 500 seats in the Chamber of Deputies, plus about 19,600 state and local offices",
+   "source": "https://politica.expansion.mx/mexico/2026/09/11/elecciones-mexico-2027-que-se-vota-fechas-clave-ine",
+   "days_until": 194
+  },
+  {
+   "id": "us_pres_2028",
+   "country": "US",
+   "name": "US presidential election",
+   "date": "2028-11-07",
+   "detail": "President, all 435 House seats and 34 Senate seats",
+   "source": "https://www.usa.gov/when-to-vote",
+   "days_until": 714
+  },
+  {
+   "id": "mx_pres_2030",
+   "country": "MX",
+   "name": "Mexico presidential election",
+   "date": "2030-06-02",
+   "detail": "President (6-year term), Congress; first Sunday of June",
+   "source": "https://www.ine.mx",
+   "days_until": 1286
+  },
+  {
+   "id": "us_mid_2030",
+   "country": "US",
+   "name": "US midterm election",
+   "date": "2030-11-05",
+   "detail": "All 435 House seats and about a third of the Senate. The last midterm was 3 Nov 2026",
+   "source": "https://www.usa.gov/when-to-vote",
+   "days_until": 1442
+  }
+ ],
  "history": {
   "fed_upper": [
    [

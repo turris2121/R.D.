@@ -79,5 +79,40 @@
     "as_of": null,
     "source": null,
     "_help": "Nu México Cajitas rate with money available instantly (not Cajita Turbo or locked-term rates). Updated the same way as GBM."
-  }
+  },
+  "elections": [
+    {
+      "id": "mx_mid_2027",
+      "country": "MX",
+      "name": "Mexico midterm election",
+      "date": "2027-06-06",
+      "detail": "All 500 seats in the Chamber of Deputies, plus about 19,600 state and local offices",
+      "source": "https://politica.expansion.mx/mexico/2026/09/11/elecciones-mexico-2027-que-se-vota-fechas-clave-ine"
+    },
+    {
+      "id": "us_pres_2028",
+      "country": "US",
+      "name": "US presidential election",
+      "date": "2028-11-07",
+      "detail": "President, all 435 House seats and 34 Senate seats",
+      "source": "https://www.usa.gov/when-to-vote"
+    },
+    {
+      "id": "mx_pres_2030",
+      "country": "MX",
+      "name": "Mexico presidential election",
+      "date": "2030-06-02",
+      "detail": "President (6-year term), Congress; first Sunday of June",
+      "source": "https://www.ine.mx"
+    },
+    {
+      "id": "us_mid_2030",
+      "country": "US",
+      "name": "US midterm election",
+      "date": "2030-11-05",
+      "detail": "All 435 House seats and about a third of the Senate. The last midterm was 3 Nov 2026",
+      "source": "https://www.usa.gov/when-to-vote"
+    }
+  ],
+  "_elections_help": "Dates are editable. The dashboard counts down to each and flags any that fall inside a USD/MXN horizon."
 }

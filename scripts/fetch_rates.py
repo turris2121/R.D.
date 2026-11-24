@@ -13,6 +13,7 @@ import csv
 import datetime as dt
 import io
 import json
+import math
 import os
 import re
 import sys
@@ -392,6 +393,52 @@ def empirical_basis(bill: dict | None, policy_pts: list, change_dates: list[str]
     return round(spreads[n // 2], 3), round(iqr, 3)
 
 
+def norm_cdf(x: float) -> float:
+    return 0.5 * (1 + math.erf(x / math.sqrt(2)))
+
+
+FX_HORIZONS = [("1 month", 30, "cetes_28", "tbill_1m"), ("3 months", 91, "cetes_91", "tbill_3m"),
+               ("6 months", 182, "cetes_182", "tbill_6m"), ("1 year", 364, "cetes_364", "tbill_1y")]
+
+
+def fx_outlook(fix: dict | None, bmx: dict, us: dict, elections: list[dict]) -> dict | None:
+    """USD/MXN odds per horizon.
+
+    Centre: the forward rate (spot adjusted for the CETES vs T-bill gap), which is
+    what the market prices in, not a forecast. Width: the last year's realized
+    volatility of the FIX. Model: lognormal around the forward.
+    """
+    if not fix or len(fix.get("points", [])) < 200:
+        return None
+    pts = fix["points"]
+    spot, spot_date = pts[-1][1], pts[-1][0]
+    rets = [math.log(b[1] / a[1]) for a, b in zip(pts[-253:-1], pts[-252:])]
+    mean = sum(rets) / len(rets)
+    vol = math.sqrt(sum((r - mean) ** 2 for r in rets) / (len(rets) - 1) * 252)
+    out = []
+    for label, days, mx_key, us_key in FX_HORIZONS:
+        mx, usr = latest(bmx.get(mx_key)), latest(us.get(us_key))
+        if not mx or not usr:
+            continue
+        fwd = spot * (1 + mx["value"] / 100 * days / 360) / (1 + usr["value"] / 100 * days / 360)
+        t = days / 365
+        sd = vol * math.sqrt(t)
+        mu = math.log(fwd / spot) - sd * sd / 2
+        z = 1.2816
+        horizon_end = (TODAY + dt.timedelta(days=days)).isoformat()
+        out.append({
+            "label": label, "days": days, "forward": round(fwd, 4),
+            "forward_pct": round((fwd / spot - 1) * 100, 2),
+            "p_usd_up": round(1 - norm_cdf((0 - mu) / sd), 3),
+            "p_up_5": round(1 - norm_cdf((math.log(1.05) - mu) / sd), 3),
+            "p_down_5": round(norm_cdf((math.log(0.95) - mu) / sd), 3),
+            "range80": [round(spot * math.exp(mu - z * sd), 2), round(spot * math.exp(mu + z * sd), 2)],
+            "mx_rate": mx["value"], "us_rate": usr["value"],
+            "events": [e["name"] for e in elections if TODAY.isoformat() <= e["date"] <= horizon_end],
+        })
+    return {"spot": spot, "spot_date": spot_date, "vol_annual": round(vol * 100, 2), "horizons": out}
+
+
 def next_after(dates: list[str]) -> str | None:
     return next((d for d in dates if d >= TODAY.isoformat()), None)
 
@@ -499,6 +546,11 @@ def main() -> int:
     if gbm.get("as_of") and bx_chg and bx_chg[-1]["date"] > gbm["as_of"]:
         warn("Banxico changed its rate after the GBM Smart Cash rate was last set; GBM has probably changed too")
 
+    elections = sorted(CONFIG.get("elections", []), key=lambda e: e["date"])
+    for e in elections:
+        e["days_until"] = (dt.date.fromisoformat(e["date"]) - TODAY).days
+    fx = fx_outlook(bmx.get("usdmxn_fix"), bmx, fred, elections)
+
     out = {
         "generated": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
         "today": TODAY.isoformat(),
@@ -526,6 +578,8 @@ def main() -> int:
         "gbm_smart_cash": {"rate": gbm.get("rate"), "as_of": gbm.get("as_of"), "source": gbm.get("source")},
         "nu_cajitas": {"rate": nu.get("rate"), "as_of": nu.get("as_of"), "source": nu.get("source")},
         "tasa_objetivo": tasa,
+        "fx": fx,
+        "elections": elections,
         "history": {
             "fed_upper": step_series(fed_pts),
             "fed_lower": step_series(fred.get("fed_lower", {}).get("points", [])),
