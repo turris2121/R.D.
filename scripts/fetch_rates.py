@@ -314,7 +314,7 @@ def decisions(meeting_dates: list[str], points: list) -> list[dict]:
     return out
 
 
-def implied_odds(policy: float, bills: list[tuple[int, dict | None, float]],
+def implied_odds(policy: float, bills: list[tuple[int, dict | None, float, float]],
                  next_meeting: str | None) -> dict | None:
     """Estimate move odds at the next meeting from short bill yields.
 
@@ -326,11 +326,23 @@ def implied_odds(policy: float, bills: list[tuple[int, dict | None, float]],
         return None
     step = CONFIG["probability"]["step_pp"]
     k = (dt.date.fromisoformat(next_meeting) - TODAY).days
-    for h, obs, basis in bills:
+    for h, obs, basis, iqr in bills:
         if obs is None or h <= k or (h - k) / h < 0.34:
             continue
         w = (h - k) / h
-        implied_move = ((obs["value"] - basis) - policy) / w      # pp at the meeting
+        excess = (obs["value"] - basis) - policy                   # pp over the bill's life
+        implied_move = excess / w                                  # pp at the meeting
+        # Weak = the reading sits inside the middle half of the bill's normal noise.
+        # Mixed = a longer bill doesn't point the same way beyond its own noise.
+        signal = "weak" if abs(excess) <= iqr / 2 else "clear"
+        checks = []
+        for h2, obs2, basis2, iqr2 in bills:
+            if obs2 is None or h2 <= h:
+                continue
+            ex2 = (obs2["value"] - basis2) - policy
+            checks.append({"days": h2, "excess_bp": round(ex2 * 100, 1), "noise_bp": round(iqr2 * 50, 1)})
+            if signal == "clear" and (ex2 * excess < 0 or abs(ex2) <= iqr2 / 2):
+                signal = "mixed"
         p = implied_move / step                                    # in 25 bp moves
         a = abs(p)
         direction = "hike" if p > 0 else "cut"
@@ -343,7 +355,8 @@ def implied_odds(policy: float, bills: list[tuple[int, dict | None, float]],
         return {
             "meeting": next_meeting, "days_to_meeting": k,
             "instrument_days": h, "instrument_yield": obs["value"], "instrument_date": obs["date"],
-            "policy_rate": policy, "basis": basis,
+            "policy_rate": policy, "basis": basis, "noise_iqr": iqr, "signal": signal,
+            "excess_bp": round(excess * 100, 1), "longer_bills": checks,
             "implied_move_bp": round(implied_move * 100, 1),
             "p_hold": round(odds.get("hold", 0.0), 3),
             "p_cut": round(odds.get("cut", 0.0), 3),
@@ -353,28 +366,30 @@ def implied_odds(policy: float, bills: list[tuple[int, dict | None, float]],
     return None
 
 
-def empirical_basis(bill: dict | None, policy_pts: list, change_dates: list[str], h: int) -> float:
-    """Median (bill - policy rate) over the last 2 years, using only days where
-    the policy rate then stayed unchanged for the bill's whole life. That is the
-    spread the bill carries when no move is coming."""
+def empirical_basis(bill: dict | None, policy_pts: list, change_dates: list[str], h: int) -> tuple[float, float]:
+    """Median of (bill yield - average policy rate actually in force over the
+    bill's life) across the last 2 years. Comparing with what really happened,
+    rather than with the rate on the day, removes the effect of expected moves,
+    so what's left is the bill's usual spread. Works even when the bank moved often."""
     if not bill or not policy_pts:
-        return 0.0
-    start = (TODAY - dt.timedelta(days=730)).isoformat()
+        return 0.0, 0.0
+    start = TODAY - dt.timedelta(days=730)
     spreads = []
     for d, y in bill["points"]:
         day = dt.date.fromisoformat(d)
-        end = (day + dt.timedelta(days=h)).isoformat()
-        if d < start or end > TODAY.isoformat():
+        if day < start or day + dt.timedelta(days=h) > TODAY:
             continue
-        if any(d < c <= end for c in change_dates):
-            continue
-        p = value_on(policy_pts, d)
-        if p is not None:
-            spreads.append(y - p)
-    if len(spreads) < 20:
-        return 0.0
+        vals = [value_on(policy_pts, (day + dt.timedelta(days=i)).isoformat()) for i in range(0, h, 7)]
+        vals = [v for v in vals if v is not None]
+        if vals:
+            spreads.append(y - sum(vals) / len(vals))
+    if len(spreads) < 10:
+        warn(f"too little history to measure the usual spread for a {h}-day bill; assuming 0")
+        return 0.0, 0.0
     spreads.sort()
-    return round(spreads[len(spreads) // 2], 3)
+    n = len(spreads)
+    iqr = spreads[(3 * n) // 4] - spreads[n // 4]
+    return round(spreads[n // 2], 3), round(iqr, 3)
 
 
 def next_after(dates: list[str]) -> str | None:
@@ -429,8 +444,10 @@ def main() -> int:
         out = []
         for h, key in spec:
             b = src.get(key)
-            basis = override if override is not None else empirical_basis(b, policy_pts, change_dates, h)
-            out.append((h, latest(b), basis))
+            basis, iqr = empirical_basis(b, policy_pts, change_dates, h)
+            if override is not None:
+                basis = override
+            out.append((h, latest(b), basis, iqr))
         return out
 
     fed_chg_dates = [c["date"] for c in changes(fed_pts)]

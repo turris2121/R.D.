@@ -62,7 +62,13 @@ function oddsBlock(o, instrumentText) {
   const leg = [["cut", o.p_cut], ["hold", o.p_hold], ["hike", o.p_hike]]
     .map(([k, p]) => `<span><span class="dot ${k}"></span>${{ cut: "Cut 25 bp", hold: "Hold", hike: "Hike 25 bp" }[k]} <b>${(p * 100).toFixed(0)}%</b></span>`).join("");
   const extra = o.p_50bp > 0.005 ? ` More than one 25 bp step is priced in, so a 50 bp move is possible.` : "";
-  return `<div class="odds-bar" role="img" aria-label="${segs.map(([k, p]) => `${k} ${(p * 100).toFixed(0)}%`).join(", ")}">${bar}</div>
+  const sig = {
+    clear: ["clear", "Clear signal: bills of every maturity agree, beyond their normal noise"],
+    mixed: ["mixed", "Mixed signal: longer-dated bills don't agree, so treat these odds as low confidence"],
+    weak: ["weak", "Weak signal: the move is within the bill's normal day-to-day noise, so treat it as a hold"],
+  }[o.signal] || null;
+  const sigHtml = sig ? `<p class="signal ${sig[0]}">${sig[1]}</p>` : "";
+  return `${sigHtml}<div class="odds-bar ${o.signal !== "clear" ? "dim" : ""}" role="img" aria-label="${segs.map(([k, p]) => `${k} ${(p * 100).toFixed(0)}%`).join(", ")}">${bar}</div>
     <div class="odds-legend">${leg}</div>
     <p class="muted" style="margin:6px 0 0">Implied move ${o.implied_move_bp >= 0 ? "+" : ""}${o.implied_move_bp.toFixed(0)} bp, from the ${esc(instrumentText(o))}
     (usual spread ${o.basis >= 0 ? "+" : ""}${o.basis.toFixed(2)} pp, as of ${fmtDate(o.instrument_date)}).${extra}</p>`;

@@ -73,6 +73,11 @@ a { color: var(--accent); }
 .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); color: var(--text-2); font-size: 12px; }
 
 .odds-bar { display: flex; height: 14px; border-radius: 4px; overflow: hidden; gap: 2px; background: var(--surface); margin: 8px 0 6px; }
+.odds-bar.dim { opacity: .45; }
+.signal { margin: 6px 0 0; font-size: 12px; color: var(--text-2); }
+.signal::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 0; border: 1.5px solid var(--text-2); }
+.signal.clear::before { background: var(--text-2); }
+.signal.mixed::before { background: linear-gradient(90deg, var(--text-2) 50%, transparent 50%); }
 .odds-bar span { display: block; height: 100%; }
 .odds-bar .cut { background: var(--cut); }
 .odds-bar .hold { background: var(--hold); }

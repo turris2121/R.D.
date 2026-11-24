@@ -66,6 +66,11 @@ probability of a 25 bp move = implied move ÷ 25 bp   (capped at 100%)
 - The script uses the shortest bill whose life covers at least a third of the time after the meeting.
 - **Usual spread (basis):** the median of (bill − policy rate) over the last 2 years, counting only days when the rate didn't change during the bill's life. To override it, put a number in `config.json → probability`.
 
+Each reading also gets a **signal** label:
+- **clear:** the gap is outside the middle half of that bill's normal noise, and longer-dated bills point the same way.
+- **mixed:** a longer bill disagrees or sits within its own noise. Treat the odds as low confidence.
+- **weak:** the gap is within normal noise. Read it as a hold.
+
 This is a rough estimate. Bill yields also move with supply, tax and liquidity, and when a meeting falls late in a bill's life small yield moves are magnified. CME's FedWatch uses fed funds futures and is more precise, but CME doesn't allow automated access. Use it to cross-check.
 
 ## Run locally

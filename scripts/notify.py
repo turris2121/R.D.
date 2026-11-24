@@ -45,7 +45,11 @@ def odds_line(o):
     s = "Odds (est.): " + ", ".join(parts)
     if o["p_50bp"] > 0.005:
         s += " (more than one 25 bp step priced)"
-    return s + f"  [implied {o['implied_move_bp']:+.0f} bp]"
+    s += f"  [implied {o['implied_move_bp']:+.0f} bp]"
+    s += {"clear": "\nSignal: clear (all bill maturities agree)",
+          "mixed": "\nSignal: mixed (longer bills disagree), low confidence",
+          "weak": "\nSignal: weak (within normal noise), read as a hold"}.get(o.get("signal"), "")
+    return s
 
 
 def last_decision(bank):

@@ -1,9 +1,9 @@
 {
- "generated": "2026-11-24T14:08+00:00",
+ "generated": "2026-11-24T14:09+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
-  "banxico": null,
+  "banxico": "2026-11-24",
   "fomc_calendar": "2026-11-24",
   "banxico_calendar": "2026-11-24"
  },
@@ -520,16 +520,34 @@
    "instrument_yield": 4.2,
    "instrument_date": "2026-11-23",
    "policy_rate": 3.88,
-   "basis": 0.08,
-   "implied_move_bp": 48.0,
+   "basis": 0.084,
+   "noise_iqr": 0.084,
+   "signal": "clear",
+   "excess_bp": 23.6,
+   "longer_bills": [
+    {
+     "days": 91,
+     "excess_bp": 42.4,
+     "noise_bp": 5.8
+    },
+    {
+     "days": 182,
+     "excess_bp": 53.7,
+     "noise_bp": 6.5
+    }
+   ],
+   "implied_move_bp": 47.2,
    "p_hold": 0.0,
    "p_cut": 0.0,
    "p_hike": 1.0,
-   "p_50bp": 0.92
+   "p_50bp": 0.888
   }
  },
  "banxico": {
-  "target": null,
+  "target": {
+   "date": "2026-11-24",
+   "value": 6.25
+  },
   "meetings": [
    {
     "date": "2026-02-05"
@@ -557,11 +575,163 @@
    }
   ],
   "next_meeting": "2026-12-17",
-  "decisions": [],
-  "changes": [],
-  "odds": null,
-  "usdmxn": null,
-  "series_titles": {}
+  "decisions": [
+   {
+    "date": "2026-02-05",
+    "bp": 0,
+    "rate": 7.0,
+    "action": "hold"
+   },
+   {
+    "date": "2026-03-26",
+    "bp": -25,
+    "rate": 6.75,
+    "action": "cut"
+   },
+   {
+    "date": "2026-05-07",
+    "bp": -25,
+    "rate": 6.5,
+    "action": "cut"
+   },
+   {
+    "date": "2026-06-25",
+    "bp": 0,
+    "rate": 6.5,
+    "action": "hold"
+   },
+   {
+    "date": "2026-08-06",
+    "bp": 0,
+    "rate": 6.5,
+    "action": "hold"
+   },
+   {
+    "date": "2026-09-24",
+    "bp": 0,
+    "rate": 6.5,
+    "action": "hold"
+   },
+   {
+    "date": "2026-11-05",
+    "bp": -25,
+    "rate": 6.25,
+    "action": "cut"
+   }
+  ],
+  "changes": [
+   {
+    "date": "2024-12-20",
+    "from": 10.25,
+    "to": 10.0,
+    "bp": -25
+   },
+   {
+    "date": "2025-02-07",
+    "from": 10.0,
+    "to": 9.5,
+    "bp": -50
+   },
+   {
+    "date": "2025-03-28",
+    "from": 9.5,
+    "to": 9.0,
+    "bp": -50
+   },
+   {
+    "date": "2025-05-16",
+    "from": 9.0,
+    "to": 8.5,
+    "bp": -50
+   },
+   {
+    "date": "2025-06-27",
+    "from": 8.5,
+    "to": 8.0,
+    "bp": -50
+   },
+   {
+    "date": "2025-08-08",
+    "from": 8.0,
+    "to": 7.75,
+    "bp": -25
+   },
+   {
+    "date": "2025-09-26",
+    "from": 7.75,
+    "to": 7.5,
+    "bp": -25
+   },
+   {
+    "date": "2025-11-07",
+    "from": 7.5,
+    "to": 7.25,
+    "bp": -25
+   },
+   {
+    "date": "2025-12-19",
+    "from": 7.25,
+    "to": 7.0,
+    "bp": -25
+   },
+   {
+    "date": "2026-03-27",
+    "from": 7.0,
+    "to": 6.75,
+    "bp": -25
+   },
+   {
+    "date": "2026-05-08",
+    "from": 6.75,
+    "to": 6.5,
+    "bp": -25
+   },
+   {
+    "date": "2026-11-06",
+    "from": 6.5,
+    "to": 6.25,
+    "bp": -25
+   }
+  ],
+  "odds": {
+   "meeting": "2026-12-17",
+   "days_to_meeting": 23,
+   "instrument_days": 91,
+   "instrument_yield": 6.49,
+   "instrument_date": "2026-11-19",
+   "policy_rate": 6.25,
+   "basis": 0.096,
+   "noise_iqr": 0.155,
+   "signal": "mixed",
+   "excess_bp": 14.4,
+   "longer_bills": [
+    {
+     "days": 182,
+     "excess_bp": -1.9,
+     "noise_bp": 8.6
+    }
+   ],
+   "implied_move_bp": 19.3,
+   "p_hold": 0.229,
+   "p_cut": 0.0,
+   "p_hike": 0.771,
+   "p_50bp": 0.0
+  },
+  "usdmxn": {
+   "date": "2026-11-23",
+   "value": 19.1648
+  },
+  "series_titles": {
+   "target": "Tasa objetivo",
+   "tiie_fondeo": "TIIE de Fondeo a Un Día Hábil Bancario, Mediana ponderada por volumen",
+   "tiie_28": "TIIE a 28 días Tasa de interés en por ciento anual",
+   "cetes_28": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 28 días",
+   "cetes_91": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 91 días",
+   "cetes_182": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 182 días",
+   "cetes_364": "Valores gubernamentales                        Resultados de la subasta semanal Tasa de rendimiento                            Cetes a 364 días",
+   "bono_10y": "Valores Gubernamentales    Resultados de la subasta semanal Tasa de rendimiento  Bono tasa fija 10 años",
+   "usdmxn_fix": "Tipo de cambio                                          Pesos por dólar E.U.A. Tipo de cambio para solventar obligaciones denominadas en moneda extranjera Fecha de determinación (FIX)"
+  }
  },
  "investments": [
   {
@@ -572,9 +742,12 @@
     "date": "2026-11-23",
     "value": 4.0
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-24",
+    "value": 6.25
+   },
+   "spread_pp": 2.25,
+   "relative_pct": 56.2
   },
   {
    "label": "Overnight",
@@ -584,9 +757,12 @@
     "date": "2026-11-23",
     "value": 3.88
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-23",
+    "value": 6.3
+   },
+   "spread_pp": 2.42,
+   "relative_pct": 62.4
   },
   {
    "label": "Overnight (secured)",
@@ -596,9 +772,12 @@
     "date": "2026-11-23",
     "value": 3.92
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-23",
+    "value": 6.3
+   },
+   "spread_pp": 2.38,
+   "relative_pct": 60.7
   },
   {
    "label": "~1 month",
@@ -608,9 +787,12 @@
     "date": "2026-11-23",
     "value": 4.2
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-19",
+    "value": 6.19
+   },
+   "spread_pp": 1.99,
+   "relative_pct": 47.4
   },
   {
    "label": "~1 month (interbank)",
@@ -620,9 +802,12 @@
     "date": "2026-11-23",
     "value": 4.2
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-24",
+    "value": 6.5449
+   },
+   "spread_pp": 2.34,
+   "relative_pct": 55.8
   },
   {
    "label": "3 months",
@@ -632,9 +817,12 @@
     "date": "2026-11-23",
     "value": 4.37
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-19",
+    "value": 6.49
+   },
+   "spread_pp": 2.12,
+   "relative_pct": 48.5
   },
   {
    "label": "6 months",
@@ -644,9 +832,12 @@
     "date": "2026-11-23",
     "value": 4.45
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-19",
+    "value": 6.67
+   },
+   "spread_pp": 2.22,
+   "relative_pct": 49.9
   },
   {
    "label": "1 year",
@@ -656,9 +847,12 @@
     "date": "2026-11-23",
     "value": 4.57
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-12",
+    "value": 6.95
+   },
+   "spread_pp": 2.38,
+   "relative_pct": 52.1
   },
   {
    "label": "10 years",
@@ -668,9 +862,12 @@
     "date": "2026-11-23",
     "value": 4.92
    },
-   "mx": null,
-   "spread_pp": null,
-   "relative_pct": null
+   "mx": {
+    "date": "2026-11-19",
+    "value": 9.28
+   },
+   "spread_pp": 4.36,
+   "relative_pct": 88.6
   }
  ],
  "gbm_smart_cash": {
@@ -795,10 +992,94 @@
     3.75
    ]
   ],
-  "banxico_target": []
+  "banxico_target": [
+   [
+    "2022-11-25",
+    10.0
+   ],
+   [
+    "2022-12-16",
+    10.5
+   ],
+   [
+    "2023-02-10",
+    11.0
+   ],
+   [
+    "2023-03-31",
+    11.25
+   ],
+   [
+    "2024-03-22",
+    11.0
+   ],
+   [
+    "2024-08-09",
+    10.75
+   ],
+   [
+    "2024-09-27",
+    10.5
+   ],
+   [
+    "2024-11-15",
+    10.25
+   ],
+   [
+    "2024-12-20",
+    10.0
+   ],
+   [
+    "2025-02-07",
+    9.5
+   ],
+   [
+    "2025-03-28",
+    9.0
+   ],
+   [
+    "2025-05-16",
+    8.5
+   ],
+   [
+    "2025-06-27",
+    8.0
+   ],
+   [
+    "2025-08-08",
+    7.75
+   ],
+   [
+    "2025-09-26",
+    7.5
+   ],
+   [
+    "2025-11-07",
+    7.25
+   ],
+   [
+    "2025-12-19",
+    7.0
+   ],
+   [
+    "2026-03-27",
+    6.75
+   ],
+   [
+    "2026-05-08",
+    6.5
+   ],
+   [
+    "2026-11-06",
+    6.25
+   ],
+   [
+    "2026-11-24",
+    6.25
+   ]
+  ]
  },
  "warnings": [
-  "banxico: fetch failed (BANXICO_TOKEN is not set) and no cached copy",
   "GBM Smart Cash rate is not set, so Tasa objetivo can't be computed"
  ]
 }
