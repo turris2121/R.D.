@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T15:29+00:00",
+ "generated": "2026-11-24T15:31+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
@@ -886,16 +886,6 @@
    "relative_pct": 88.6
   }
  ],
- "gbm_smart_cash": {
-  "rate": 3.75,
-  "as_of": "2026-11-24",
-  "source": "entered by hand"
- },
- "nu_cajitas": {
-  "rate": 6.5,
-  "as_of": "2026-11-24",
-  "source": "entered by hand"
- },
  "tasa_actual": [
   {
    "label": "1 month",

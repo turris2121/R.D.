@@ -1,10 +1,4 @@
 {
-  "gbm_smart_cash": {
-    "rate": 3.75,
-    "as_of": "2026-11-24",
-    "source": "entered by hand",
-    "_help": "Updated weekly by the Claude cloud routine, or by hand: Actions > Update rates > Run workflow. rate in % per year, as_of YYYY-MM-DD, source = URL where the rate was read."
-  },
   "probability": {
     "step_pp": 0.25,
     "fed_basis_pp": null,
@@ -78,12 +72,6 @@
     ]
   },
   "fed_calendar_manual": {},
-  "nu_cajitas": {
-    "rate": 6.5,
-    "as_of": "2026-11-24",
-    "source": "entered by hand",
-    "_help": "Nu México Cajitas rate with money available instantly (not Cajita Turbo or locked-term rates). Updated the same way as GBM."
-  },
   "elections": [
     {
       "id": "mx_mid_2027",

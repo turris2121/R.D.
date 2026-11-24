@@ -534,7 +534,6 @@ def main() -> int:
 
     # --- tasa actual ----------------------------------------------------------
     # Mexico vs US yield for each term, as published (no averaging).
-    gbm = CONFIG["gbm_smart_cash"]
     tasa = []
     for label, mx_key, mx_name, us_key, us_name in (
             ("1 month", "cetes_28", "CETES 28d", "tbill_1m", "T-bill 1M"),
@@ -545,15 +544,7 @@ def main() -> int:
             ("10 years", "bono_10y", "Bono M 10Y", "ust_10y", "Treasury 10Y")):
         tasa.append({"label": label, "mx_name": mx_name, "mx": latest(bmx.get(mx_key)),
                      "us_name": us_name, "us": latest(fred.get(us_key))})
-    nu = CONFIG.get("nu_cajitas", {})
-    if nu.get("rate") is None:
-        warn("Nu Cajitas rate is not set yet; the cloud routine fills it in")
-    for name, r in (("GBM Smart Cash", gbm), ("Nu Cajitas", nu)):
-        if r.get("rate") is not None and r.get("as_of") and (TODAY - dt.date.fromisoformat(r["as_of"])).days > 10:
-            warn(f"{name} rate was last updated on {r['as_of']}; the weekly routine may have failed")
     bx_chg = changes(bx_pts)
-    if gbm.get("as_of") and bx_chg and bx_chg[-1]["date"] > gbm["as_of"]:
-        warn("Banxico changed its rate after the GBM Smart Cash rate was last set; GBM has probably changed too")
 
     elections = sorted(CONFIG.get("elections", []), key=lambda e: e["date"])
     for e in elections:
@@ -584,8 +575,6 @@ def main() -> int:
             "series_titles": {k: v.get("title") for k, v in bmx.items()},
         },
         "investments": rows,
-        "gbm_smart_cash": {"rate": gbm.get("rate"), "as_of": gbm.get("as_of"), "source": gbm.get("source")},
-        "nu_cajitas": {"rate": nu.get("rate"), "as_of": nu.get("as_of"), "source": nu.get("source")},
         "tasa_actual": tasa,
         "fx": fx,
         "elections": elections,

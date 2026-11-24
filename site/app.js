@@ -40,24 +40,18 @@ function render(D) {
 }
 
 function renderTasa(D) {
-  const n = D.nu_cajitas || {};
   const d = (o) => (o ? fmtDate(o.date, { day: "numeric", month: "short" }) : "");
   $("tasa-sub").textContent = "Latest published yields, Mexico vs US";
-  const nuCard = `<div class="kpi hero nu">
-      <div class="l">🇲🇽 Nu Cajitas <span class="nm">instant access</span></div>
-      <div class="v">${pct(n.rate)}</div>
-      <div class="s">${n.as_of ? `As of ${fmtDate(n.as_of)}` : "Waiting for the weekly routine"}</div></div>`;
   const cards = D.tasa_actual.map((t) => `<div class="kpi term">
       <div class="l">${t.label}</div>
       <div class="pair"><div class="v2">🇲🇽 ${val(t.mx)}</div><div class="dt">${t.mx_name} · ${d(t.mx)}</div></div>
       <div class="pair"><div class="v2">🇺🇸 ${val(t.us)}</div><div class="dt">${t.us_name} · ${d(t.us)}</div></div>
     </div>`).join("");
-  $("tasa").innerHTML = nuCard + cards;
+  $("tasa").innerHTML = cards;
 }
 
 function renderKpis(D) {
   const pol = D.investments[0];
-  const g = D.gbm_smart_cash;
   const kpi = (l, v, s, cls = "") => `<div class="kpi ${cls}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
   $("kpis").innerHTML = [
     kpi("Fed funds target", D.fed.upper ? `${D.fed.lower.value.toFixed(2)}–${D.fed.upper.value.toFixed(2)}%` : "—",
@@ -65,8 +59,6 @@ function renderKpis(D) {
     kpi("Banxico target", val(D.banxico.target), `Next decision ${fmtDate(D.banxico.next_meeting)}`),
     kpi("Policy rate spread", pol.spread_pp == null ? "—" : `${pol.spread_pp >= 0 ? "+" : ""}${pol.spread_pp.toFixed(2)} pp`,
       pol.relative_pct == null ? "Mexico − US" : `Mexico's rate is ${pol.relative_pct.toFixed(0)}% higher`),
-    kpi("GBM Smart Cash", pct(g.rate), g.as_of ? `As of ${fmtDate(g.as_of)}` : "Not set yet"),
-    kpi("Nu Cajitas", pct((D.nu_cajitas || {}).rate), (D.nu_cajitas || {}).as_of ? `Instant access · as of ${fmtDate(D.nu_cajitas.as_of)}` : "Not set yet"),
     kpi("USD/MXN (FIX)", D.banxico.usdmxn ? D.banxico.usdmxn.value.toFixed(4) : "—",
       D.banxico.usdmxn ? fmtDate(D.banxico.usdmxn.date) : ""),
   ].join("");
@@ -209,19 +201,12 @@ function renderChart(D) {
 }
 
 function renderInvestments(D) {
-  const g = D.gbm_smart_cash;
   const cell = (o) => (o ? `<td class="r">${pct(o.value)}<span class="nm">${fmtDate(o.date, { day: "numeric", month: "short" })}</span></td>` : `<td class="r">—</td>`);
   const rows = D.investments.map((r) => `<tr><td>${esc(r.label)}<span class="nm">${esc(r.us_name)} · ${esc(r.mx_name)}</span></td>
     ${cell(r.us)}${cell(r.mx)}
     <td class="r">${r.spread_pp == null ? "—" : `${r.spread_pp >= 0 ? "+" : ""}${r.spread_pp.toFixed(2)} pp`}</td>
     <td class="r">${r.relative_pct == null ? "—" : `${r.relative_pct >= 0 ? "+" : ""}${r.relative_pct.toFixed(1)}%`}</td></tr>`).join("");
-  const manual = (name, r, note) => {
-    r = r || {};
-    const src = /^https?:\/\//.test(r.source || "") ? `<a href="${esc(r.source)}">source</a>` : esc(r.source || "no source yet");
-    return `<tr><td>${name}<span class="nm">${note} · ${src}</span></td><td class="r">—</td>${r.rate == null ? '<td class="r">—</td>' : `<td class="r">${pct(r.rate)}<span class="nm">${fmtDate(r.as_of, { day: "numeric", month: "short" })}</span></td>`}<td class="r">—</td><td class="r">—</td></tr>`;
-  };
-  const gbmRow = manual("GBM Smart Cash", g, "Updated weekly") + manual("Nu Cajitas", D.nu_cajitas, "Instant access, updated weekly");
-  $("inv").innerHTML = `<thead><tr><th>Maturity</th><th class="r">🇺🇸 US</th><th class="r">🇲🇽 Mexico</th><th class="r">Spread</th><th class="r">Relative</th></tr></thead><tbody>${rows}${gbmRow}</tbody>`;
+  $("inv").innerHTML = `<thead><tr><th>Maturity</th><th class="r">🇺🇸 US</th><th class="r">🇲🇽 Mexico</th><th class="r">Spread</th><th class="r">Relative</th></tr></thead><tbody>${rows}</tbody>`;
 }
 
 // ------------------------------------------------------------- USD/MXN ----

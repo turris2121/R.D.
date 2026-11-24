@@ -93,9 +93,7 @@ def build() -> str:
     up = [x for x in D.get("elections", []) if x["days_until"] >= 0][:3]
     if up:
         lines += ["", "<b>Elections</b>"] + [f"{'🇲🇽' if x['country'] == 'MX' else '🇺🇸'} {e(x['name'])}: {x['date']} (in {x['days_until']} days)" for x in up]
-    n = D.get("nu_cajitas") or {}
-    lines += ["", "<b>Tasa actual</b>  🇲🇽 vs 🇺🇸",
-              f"Nu Cajitas (instant access): {pct(n.get('rate'))}" + (f" (as of {n['as_of']})" if n.get("as_of") else "")]
+    lines += ["", "<b>Tasa actual</b>  🇲🇽 vs 🇺🇸"]
     for t in D["tasa_actual"]:
         mx = f"{t['mx']['value']:.2f}%" if t["mx"] else "n/a"
         us = f"{t['us']['value']:.2f}%" if t["us"] else "n/a"
