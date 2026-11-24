@@ -1,11 +1,11 @@
 {
  "generated": "2026-11-24T00:33+00:00",
- "today": "2026-11-23",
+ "today": "2026-11-24",
  "sources_fetched": {
-  "us": "2026-11-23",
+  "us": "2026-11-24",
   "banxico": null,
-  "fomc_calendar": "2026-11-23",
-  "banxico_calendar": "2026-11-23"
+  "fomc_calendar": "2026-11-24",
+  "banxico_calendar": "2026-11-24"
  },
  "fed": {
   "upper": {
@@ -515,17 +515,17 @@
   ],
   "odds": {
    "meeting": "2026-12-09",
-   "days_to_meeting": 16,
+   "days_to_meeting": 15,
    "instrument_days": 30,
    "instrument_yield": 4.2,
    "instrument_date": "2026-11-23",
    "policy_rate": 3.88,
    "basis": 0.08,
-   "implied_move_bp": 51.4,
+   "implied_move_bp": 48.0,
    "p_hold": 0.0,
    "p_cut": 0.0,
    "p_hike": 1.0,
-   "p_50bp": 1.0
+   "p_50bp": 0.92
   }
  },
  "banxico": {
