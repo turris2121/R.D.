@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T14:40+00:00",
+ "generated": "2026-11-24T15:19+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
@@ -887,14 +887,14 @@
   }
  ],
  "gbm_smart_cash": {
-  "rate": null,
-  "as_of": null,
-  "source": null
+  "rate": 3.75,
+  "as_of": "2026-11-24",
+  "source": "entered by hand"
  },
  "nu_cajitas": {
-  "rate": null,
-  "as_of": null,
-  "source": null
+  "rate": 6.5,
+  "as_of": "2026-11-24",
+  "source": "entered by hand"
  },
  "tasa_objetivo": [
   {
@@ -904,7 +904,7 @@
     "date": "2026-11-19",
     "value": 6.19
    },
-   "value": null
+   "value": 4.97
   },
   {
    "label": "3 months",
@@ -913,7 +913,7 @@
     "date": "2026-11-19",
     "value": 6.49
    },
-   "value": null
+   "value": 5.12
   },
   {
    "label": "6 months",
@@ -922,7 +922,7 @@
     "date": "2026-11-19",
     "value": 6.67
    },
-   "value": null
+   "value": 5.21
   },
   {
    "label": "1 year",
@@ -931,7 +931,7 @@
     "date": "2026-11-12",
     "value": 6.95
    },
-   "value": null
+   "value": 5.35
   },
   {
    "label": "2 years",
@@ -940,7 +940,7 @@
     "date": "2026-11-19",
     "value": 7.87
    },
-   "value": null
+   "value": 5.81
   }
  ],
  "fx": {
@@ -1258,7 +1258,5 @@
    ]
   ]
  },
- "warnings": [
-  "GBM Smart Cash rate is not set, so Tasa objetivo can't be computed"
- ]
+ "warnings": []
 }
