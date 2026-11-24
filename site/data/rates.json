@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T00:33+00:00",
+ "generated": "2026-11-24T14:08+00:00",
  "today": "2026-11-24",
  "sources_fetched": {
   "us": "2026-11-24",
@@ -9,15 +9,15 @@
  },
  "fed": {
   "upper": {
-   "date": "2026-11-20",
+   "date": "2026-11-23",
    "value": 4.0
   },
   "lower": {
-   "date": "2026-11-20",
+   "date": "2026-11-23",
    "value": 3.75
   },
   "effr": {
-   "date": "2026-11-20",
+   "date": "2026-11-23",
    "value": 3.88
   },
   "meetings": [
@@ -569,7 +569,7 @@
    "us_name": "Fed funds (upper bound)",
    "mx_name": "Banxico target",
    "us": {
-    "date": "2026-11-20",
+    "date": "2026-11-23",
     "value": 4.0
    },
    "mx": null,
@@ -581,7 +581,7 @@
    "us_name": "Effective fed funds",
    "mx_name": "TIIE de fondeo",
    "us": {
-    "date": "2026-11-20",
+    "date": "2026-11-23",
     "value": 3.88
    },
    "mx": null,
@@ -593,7 +593,7 @@
    "us_name": "SOFR",
    "mx_name": "TIIE de fondeo",
    "us": {
-    "date": "2026-11-20",
+    "date": "2026-11-23",
     "value": 3.92
    },
    "mx": null,
@@ -733,7 +733,7 @@
     4.0
    ],
    [
-    "2026-11-20",
+    "2026-11-23",
     4.0
    ]
   ],
@@ -791,7 +791,7 @@
     3.75
    ],
    [
-    "2026-11-20",
+    "2026-11-23",
     3.75
    ]
   ],
