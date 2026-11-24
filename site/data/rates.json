@@ -1,11 +1,11 @@
 {
- "generated": "2026-11-24T00:09+00:00",
- "today": "2026-11-23",
+ "generated": "2026-11-24T00:31+00:00",
+ "today": "2026-11-24",
  "sources_fetched": {
   "fred": "2026-11-23",
   "banxico": null,
-  "fomc_calendar": "2026-11-23",
-  "banxico_calendar": "2026-11-23"
+  "fomc_calendar": "2026-11-24",
+  "banxico_calendar": "2026-11-24"
  },
  "fed": {
   "upper": {
@@ -515,17 +515,17 @@
   ],
   "odds": {
    "meeting": "2026-12-09",
-   "days_to_meeting": 16,
+   "days_to_meeting": 15,
    "instrument_days": 30,
    "instrument_yield": 4.19,
    "instrument_date": "2026-11-20",
    "policy_rate": 3.88,
    "basis": 0.08,
-   "implied_move_bp": 49.3,
+   "implied_move_bp": 46.0,
    "p_hold": 0.0,
    "p_cut": 0.0,
    "p_hike": 1.0,
-   "p_50bp": 0.971
+   "p_50bp": 0.84
   }
  },
  "banxico": {
@@ -798,6 +798,7 @@
   "banxico_target": []
  },
  "warnings": [
+  "fred: fetch failed (https://fred.stlouisfed.org/graph/fredgraph.csv: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=60)); using copy from 2026-11-23",
   "banxico: fetch failed (BANXICO_TOKEN is not set) and no cached copy",
   "GBM Smart Cash rate is not set, so Tasa objetivo can't be computed"
  ]
