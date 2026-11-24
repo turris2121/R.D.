@@ -86,8 +86,11 @@ def build() -> str:
     g = D["gbm_smart_cash"]
     lines += ["",
               f"<b>Tasa objetivo: {pct(D['tasa_objetivo'], 3)}</b>",
-              f"= mean of GBM Smart Cash {pct(g['rate'])} (set {g['as_of'] or 'never'}) "
+              f"= mean of GBM Smart Cash {pct(g['rate'])} (as of {g['as_of'] or 'never'}) "
               f"and Banxico {val(b['target'])}"]
+    n = D.get("nu_cajitas") or {}
+    if n.get("rate") is not None:
+        lines.append(f"Nu Cajitas (instant access): {pct(n['rate'])} (as of {n['as_of']})")
     if b.get("usdmxn"):
         lines.append(f"USD/MXN FIX: {b['usdmxn']['value']:.4f}")
     if D["warnings"]:

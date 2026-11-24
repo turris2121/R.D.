@@ -9,6 +9,10 @@ on:
         description: "GBM Smart Cash rate in % (e.g. 6.25). Leave empty to keep the current one."
         type: string
         default: ""
+      nu_rate:
+        description: "Nu Cajitas (instant access) rate in %. Leave empty to keep the current one."
+        type: string
+        default: ""
       notify:
         description: "Send the Telegram summary now"
         type: boolean
@@ -38,21 +42,25 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Save new GBM Smart Cash rate
-        if: ${{ inputs.gbm_rate != '' && inputs.gbm_rate != null }}
+      - name: Save rates typed into the form
+        if: ${{ inputs.gbm_rate != '' || inputs.nu_rate != '' }}
         env:
           GBM_RATE: ${{ inputs.gbm_rate }}
+          NU_RATE: ${{ inputs.nu_rate }}
         run: |
           python - <<'EOF'
           import datetime, json, os, re
-          raw = os.environ["GBM_RATE"].strip().replace("%", "").replace(",", ".")
-          if not re.fullmatch(r"\d{1,2}(\.\d+)?", raw):
-              raise SystemExit(f"'{raw}' is not a rate like 6.25")
           c = json.load(open("config.json"))
-          c["gbm_smart_cash"]["rate"] = float(raw)
-          c["gbm_smart_cash"]["as_of"] = datetime.date.today().isoformat()
+          for env, key in (("GBM_RATE", "gbm_smart_cash"), ("NU_RATE", "nu_cajitas")):
+              raw = (os.environ.get(env) or "").strip().replace("%", "").replace(",", ".")
+              if not raw:
+                  continue
+              if not re.fullmatch(r"\d{1,2}(\.\d+)?", raw):
+                  raise SystemExit(f"{env}: '{raw}' is not a rate like 6.25")
+              c.setdefault(key, {})
+              c[key].update(rate=float(raw), as_of=datetime.date.today().isoformat(), source="entered by hand")
+              print(key, "set to", raw)
           json.dump(c, open("config.json", "w"), indent=2, ensure_ascii=False)
-          print("GBM Smart Cash rate set to", raw)
           EOF
 
       - name: Fetch data

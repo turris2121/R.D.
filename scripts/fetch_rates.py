@@ -489,10 +489,12 @@ def main() -> int:
     tasa = None
     if gbm.get("rate") is not None and bx_target:
         tasa = round((float(gbm["rate"]) + bx_target["value"]) / 2, 3)
+    nu = CONFIG.get("nu_cajitas", {})
     if gbm.get("rate") is None:
         warn("GBM Smart Cash rate is not set, so Tasa objetivo can't be computed")
-    elif gbm.get("as_of") and (TODAY - dt.date.fromisoformat(gbm["as_of"])).days > 21:
-        warn(f"GBM Smart Cash rate was last set on {gbm['as_of']}; check it's still current")
+    for name, r in (("GBM Smart Cash", gbm), ("Nu Cajitas", nu)):
+        if r.get("rate") is not None and r.get("as_of") and (TODAY - dt.date.fromisoformat(r["as_of"])).days > 10:
+            warn(f"{name} rate was last updated on {r['as_of']}; the weekly routine may have failed")
     bx_chg = changes(bx_pts)
     if gbm.get("as_of") and bx_chg and bx_chg[-1]["date"] > gbm["as_of"]:
         warn("Banxico changed its rate after the GBM Smart Cash rate was last set; GBM has probably changed too")
@@ -521,7 +523,8 @@ def main() -> int:
             "series_titles": {k: v.get("title") for k, v in bmx.items()},
         },
         "investments": rows,
-        "gbm_smart_cash": {"rate": gbm.get("rate"), "as_of": gbm.get("as_of")},
+        "gbm_smart_cash": {"rate": gbm.get("rate"), "as_of": gbm.get("as_of"), "source": gbm.get("source")},
+        "nu_cajitas": {"rate": nu.get("rate"), "as_of": nu.get("as_of"), "source": nu.get("source")},
         "tasa_objetivo": tasa,
         "history": {
             "fed_upper": step_series(fed_pts),

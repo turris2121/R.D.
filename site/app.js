@@ -49,7 +49,8 @@ function renderKpis(D) {
     kpi("Banxico target", val(D.banxico.target), `Next decision ${fmtDate(D.banxico.next_meeting)}`),
     kpi("Policy rate spread", pol.spread_pp == null ? "—" : `${pol.spread_pp >= 0 ? "+" : ""}${pol.spread_pp.toFixed(2)} pp`,
       pol.relative_pct == null ? "Mexico − US" : `Mexico's rate is ${pol.relative_pct.toFixed(0)}% higher`),
-    kpi("GBM Smart Cash", pct(g.rate), g.as_of ? `Entered ${fmtDate(g.as_of)}` : "Not set yet"),
+    kpi("GBM Smart Cash", pct(g.rate), g.as_of ? `As of ${fmtDate(g.as_of)}` : "Not set yet"),
+    kpi("Nu Cajitas", pct((D.nu_cajitas || {}).rate), (D.nu_cajitas || {}).as_of ? `Instant access · as of ${fmtDate(D.nu_cajitas.as_of)}` : "Not set yet"),
     kpi("USD/MXN (FIX)", D.banxico.usdmxn ? D.banxico.usdmxn.value.toFixed(4) : "—",
       D.banxico.usdmxn ? fmtDate(D.banxico.usdmxn.date) : ""),
   ].join("");
@@ -198,7 +199,12 @@ function renderInvestments(D) {
     ${cell(r.us)}${cell(r.mx)}
     <td class="r">${r.spread_pp == null ? "—" : `${r.spread_pp >= 0 ? "+" : ""}${r.spread_pp.toFixed(2)} pp`}</td>
     <td class="r">${r.relative_pct == null ? "—" : `${r.relative_pct >= 0 ? "+" : ""}${r.relative_pct.toFixed(1)}%`}</td></tr>`).join("");
-  const gbmRow = `<tr><td>GBM Smart Cash<span class="nm">Entered by hand</span></td><td class="r">—</td>${g.rate == null ? '<td class="r">—</td>' : `<td class="r">${pct(g.rate)}<span class="nm">${fmtDate(g.as_of, { day: "numeric", month: "short" })}</span></td>`}<td class="r">—</td><td class="r">—</td></tr>
-    <tr class="hl"><td>Tasa objetivo<span class="nm">(GBM Smart Cash + Banxico target) ÷ 2</span></td><td class="r">—</td><td class="r">${pct(D.tasa_objetivo)}</td><td class="r">—</td><td class="r">—</td></tr>`;
+  const manual = (name, r, note) => {
+    r = r || {};
+    const src = /^https?:\/\//.test(r.source || "") ? `<a href="${esc(r.source)}">source</a>` : esc(r.source || "no source yet");
+    return `<tr><td>${name}<span class="nm">${note} · ${src}</span></td><td class="r">—</td>${r.rate == null ? '<td class="r">—</td>' : `<td class="r">${pct(r.rate)}<span class="nm">${fmtDate(r.as_of, { day: "numeric", month: "short" })}</span></td>`}<td class="r">—</td><td class="r">—</td></tr>`;
+  };
+  const gbmRow = manual("GBM Smart Cash", g, "Updated weekly") + manual("Nu Cajitas", D.nu_cajitas, "Instant access, updated weekly") +
+    `<tr class="hl"><td>Tasa objetivo<span class="nm">(GBM Smart Cash + Banxico target) ÷ 2</span></td><td class="r">—</td><td class="r">${pct(D.tasa_objetivo)}</td><td class="r">—</td><td class="r">—</td></tr>`;
   $("inv").innerHTML = `<thead><tr><th>Maturity</th><th class="r">🇺🇸 US</th><th class="r">🇲🇽 Mexico</th><th class="r">Spread</th><th class="r">Relative</th></tr></thead><tbody>${rows}${gbmRow}</tbody>`;
 }

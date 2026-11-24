@@ -2,7 +2,8 @@
   "gbm_smart_cash": {
     "rate": null,
     "as_of": null,
-    "_help": "GBM publishes no API. Set this from GitHub: Actions > Update rates > Run workflow > 'GBM Smart Cash rate'. Or edit this file: rate in % (e.g. 6.25), as_of as YYYY-MM-DD."
+    "source": null,
+    "_help": "Updated weekly by the Claude cloud routine, or by hand: Actions > Update rates > Run workflow. rate in % per year, as_of YYYY-MM-DD, source = URL where the rate was read."
   },
   "probability": {
     "step_pp": 0.25,
@@ -23,18 +24,60 @@
     "ust_10y": "DGS10"
   },
   "banxico_series": {
-    "target":       {"id": "SF61745",  "expect": "objetivo"},
-    "tiie_fondeo":  {"id": "SF331451", "expect": "fondeo"},
-    "tiie_28":      {"id": "SF43783",  "expect": "28"},
-    "cetes_28":     {"id": "SF43936",  "expect": "28"},
-    "cetes_91":     {"id": "SF43939",  "expect": "91"},
-    "cetes_182":    {"id": "SF43942",  "expect": "182"},
-    "cetes_364":    {"id": "SF43945",  "expect": "364"},
-    "bono_10y":     {"id": "SF44071",  "expect": "10"},
-    "usdmxn_fix":   {"id": "SF43718",  "expect": "FIX"}
+    "target": {
+      "id": "SF61745",
+      "expect": "objetivo"
+    },
+    "tiie_fondeo": {
+      "id": "SF331451",
+      "expect": "fondeo"
+    },
+    "tiie_28": {
+      "id": "SF43783",
+      "expect": "28"
+    },
+    "cetes_28": {
+      "id": "SF43936",
+      "expect": "28"
+    },
+    "cetes_91": {
+      "id": "SF43939",
+      "expect": "91"
+    },
+    "cetes_182": {
+      "id": "SF43942",
+      "expect": "182"
+    },
+    "cetes_364": {
+      "id": "SF43945",
+      "expect": "364"
+    },
+    "bono_10y": {
+      "id": "SF44071",
+      "expect": "10"
+    },
+    "usdmxn_fix": {
+      "id": "SF43718",
+      "expect": "FIX"
+    }
   },
   "banxico_calendar_manual": {
-    "2026": ["2026-02-05", "2026-03-26", "2026-05-07", "2026-06-25", "2026-08-06", "2026-09-24", "2026-11-05", "2026-12-17"]
+    "2026": [
+      "2026-02-05",
+      "2026-03-26",
+      "2026-05-07",
+      "2026-06-25",
+      "2026-08-06",
+      "2026-09-24",
+      "2026-11-05",
+      "2026-12-17"
+    ]
   },
-  "fed_calendar_manual": {}
+  "fed_calendar_manual": {},
+  "nu_cajitas": {
+    "rate": null,
+    "as_of": null,
+    "source": null,
+    "_help": "Nu México Cajitas rate with money available instantly (not Cajita Turbo or locked-term rates). Updated the same way as GBM."
+  }
 }
