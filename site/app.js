@@ -40,12 +40,19 @@ function render(D) {
 }
 
 function renderTasa(D) {
-  const g = D.gbm_smart_cash;
-  $("tasa-sub").textContent = g.rate == null ? "Needs the GBM Smart Cash rate" :
-    `(GBM Smart Cash ${pct(g.rate)} + CETES) ÷ 2 · GBM as of ${fmtDate(g.as_of)}`;
-  $("tasa").innerHTML = D.tasa_objetivo.map((t) => `<div class="kpi hero">
-      <div class="l">${t.label}</div><div class="v">${pct(t.value)}</div>
-      <div class="s">${t.cetes ? `${t.cetes_name} ${pct(t.cetes.value)} · ${fmtDate(t.cetes.date, { day: "numeric", month: "short" })}` : `${t.cetes_name} unavailable`}</div></div>`).join("");
+  const n = D.nu_cajitas || {};
+  const d = (o) => (o ? fmtDate(o.date, { day: "numeric", month: "short" }) : "");
+  $("tasa-sub").textContent = "Latest published yields, Mexico vs US";
+  const nuCard = `<div class="kpi hero nu">
+      <div class="l">🇲🇽 Nu Cajitas <span class="nm">instant access</span></div>
+      <div class="v">${pct(n.rate)}</div>
+      <div class="s">${n.as_of ? `As of ${fmtDate(n.as_of)}` : "Waiting for the weekly routine"}</div></div>`;
+  const cards = D.tasa_actual.map((t) => `<div class="kpi term">
+      <div class="l">${t.label}</div>
+      <div class="pair"><div class="v2">🇲🇽 ${val(t.mx)}</div><div class="dt">${t.mx_name} · ${d(t.mx)}</div></div>
+      <div class="pair"><div class="v2">🇺🇸 ${val(t.us)}</div><div class="dt">${t.us_name} · ${d(t.us)}</div></div>
+    </div>`).join("");
+  $("tasa").innerHTML = nuCard + cards;
 }
 
 function renderKpis(D) {

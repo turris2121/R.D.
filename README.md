@@ -5,7 +5,7 @@ A self-updating dashboard comparing US and Mexico interest rates:
 - **A. Calendars:** every FOMC (Fed) and Banxico decision date, with past decisions marked cut / hold / hike.
 - **B. Investment rates:** policy rate, overnight, 1M, 3M, 6M, 1Y, 2Y and 10Y, US vs Mexico, with the spread in percentage points and in relative %.
 - **C. Odds** of a cut, hold or hike at each bank's next meeting, estimated from bill yields.
-- **D. Tasa objetivo** = (GBM Smart Cash rate + CETES) ÷ 2 for each CETES term: 1 month, 3 months, 6 months, 1 year and 2 years. The Nu Cajitas instant-access rate is shown next to it.
+- **D. Tasa actual:** the Nu Cajitas instant-access rate, plus Mexico vs US yields for 1M, 3M, 6M, 1Y, 2Y (CETES vs T-bills and Treasuries) and 10Y (Bono M vs Treasury).
 - **USD/MXN odds** for 1, 3, 6 and 12 months: the forward rate, the chance the peso weakens, the chance of a move of 5% or more either way, and an 80% likely range.
 - **Elections:** countdowns to the Mexico midterm (6 Jun 2027), the US presidential election (7 Nov 2028), the Mexico presidential election (2 Jun 2030) and the US midterm (5 Nov 2030). Dates live in `config.json → elections`.
 
@@ -21,7 +21,7 @@ Every day at 13:00 UTC (07:00 Mexico City) a GitHub Action runs `scripts/fetch_r
 | [federalreserve.gov](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm) | FOMC meeting calendar | no |
 | [Banxico SIE API](https://www.banxico.org.mx/SieAPIRest/service/v1/) | target rate, TIIE, CETES, Bono M 10Y, USD/MXN FIX | free token |
 | [Banxico calendar PDF](https://www.banxico.org.mx/publicaciones-y-prensa/anuncios-de-las-decisiones-de-politica-monetaria/anuncios-politica-monetaria-t.html) | Banxico decision dates | no |
-| GBM Smart Cash | entered by you (GBM has no public API) | — |
+| GBM Smart Cash | entered by you (GBM and Nu have no public API) | — |
 
 If a source fails, the previous copy in `data/raw/` is used and the page and Telegram message show a warning.
 

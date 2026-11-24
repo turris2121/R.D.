@@ -93,14 +93,13 @@ def build() -> str:
     up = [x for x in D.get("elections", []) if x["days_until"] >= 0][:3]
     if up:
         lines += ["", "<b>Elections</b>"] + [f"{'🇲🇽' if x['country'] == 'MX' else '🇺🇸'} {e(x['name'])}: {x['date']} (in {x['days_until']} days)" for x in up]
-    g = D["gbm_smart_cash"]
-    lines += ["", f"<b>Tasa objetivo</b> = (GBM Smart Cash {pct(g['rate'])} + CETES) ÷ 2"]
-    for t in D["tasa_objetivo"]:
-        cv = f"{t['cetes']['value']:.2f}%" if t["cetes"] else "n/a"
-        lines.append(f"{t['label']}: <b>{pct(t['value'])}</b> ({t['cetes_name']} {cv})")
     n = D.get("nu_cajitas") or {}
-    if n.get("rate") is not None:
-        lines.append(f"Nu Cajitas (instant access): {pct(n['rate'])} (as of {n['as_of']})")
+    lines += ["", "<b>Tasa actual</b>  🇲🇽 vs 🇺🇸",
+              f"Nu Cajitas (instant access): {pct(n.get('rate'))}" + (f" (as of {n['as_of']})" if n.get("as_of") else "")]
+    for t in D["tasa_actual"]:
+        mx = f"{t['mx']['value']:.2f}%" if t["mx"] else "n/a"
+        us = f"{t['us']['value']:.2f}%" if t["us"] else "n/a"
+        lines.append(f"{t['label']}: {t['mx_name']} <b>{mx}</b> · {t['us_name']} <b>{us}</b>")
     if D["warnings"]:
         lines += ["", "⚠️ " + "\n⚠️ ".join(e(w) for w in D["warnings"][:6])]
     url = os.environ.get("DASHBOARD_URL")

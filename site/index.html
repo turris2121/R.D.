@@ -20,7 +20,7 @@
 
   <section class="panel">
     <div class="panel-head">
-      <h2>Tasa objetivo</h2>
+      <h2>Tasa actual</h2>
       <span class="muted" id="tasa-sub"></span>
     </div>
     <div class="kpis tasa" id="tasa"></div>
@@ -73,7 +73,7 @@
       <li><b>Calendars.</b> FOMC dates come from <a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm">federalreserve.gov</a>; Banxico dates from its <a href="https://www.banxico.org.mx/publicaciones-y-prensa/anuncios-de-las-decisiones-de-politica-monetaria/anuncios-politica-monetaria-t.html">published calendar</a>. Past decisions compare the rate the day before each meeting with the rate 5 days after.</li>
       <li><b>Odds (estimate).</b> If a bank moves 25 bp at a meeting k days away, the average rate over a bill's life of h days moves by 25 bp × (h−k)/h. So the bill yield, minus its usual spread to the policy rate, gives the probability-weighted move. The Fed uses T-bills against the effective fed funds rate; Banxico uses CETES against its target. The usual spread ("basis") is the median from the last 2 years, counting only days when the rate didn't change during the bill's life. This is cruder than futures-based tools: cross-check with <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html">CME FedWatch</a>.</li>
       <li><b>USD/MXN odds.</b> Forward = FIX × (1 + CETES × d/360) ÷ (1 + T-bill × d/360). Outcomes are modelled as lognormal around the forward, with the last 252 days' realized volatility of the FIX. Options-implied volatility would be better, but there's no free source for it.</li>
-      <li><b>Tasa objetivo</b> = (GBM Smart Cash rate + CETES yield for each term) ÷ 2, for 1 month (28d), 3 months (91d), 6 months (182d), 1 year (364d) and 2 years (728d). CETES are the latest Banxico auction results: weekly for terms up to 1 year, every two weeks for 2 years. GBM has no public API, so its rate is entered by hand when you start the workflow.</li>
+      <li><b>Tasa actual</b> shows the latest published yield for each term, side by side: CETES (28, 91, 182, 364 and 728 days) and the 10-year Bono M for Mexico, and T-bills and Treasuries for the US. Nu Cajitas is the instant-access rate, updated by the cloud routine. CETES come from Banxico's auctions (weekly up to 1 year, every two weeks for 2 years).</li>
       <li><b>Sources.</b> US: <a href="https://markets.newyorkfed.org/static/docs/markets-api.html">New York Fed</a> and <a href="https://home.treasury.gov/resource-center/data-chart-center/interest-rates">US Treasury</a>, with <a href="https://fred.stlouisfed.org">FRED</a> as fallback. Mexico: <a href="https://www.banxico.org.mx/SieAPIRest/service/v1/">Banxico SIE API</a>. Bill yields are the latest published, usually one business day old; CETES come from weekly auctions.</li>
     </ul>
   </section>

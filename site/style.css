@@ -157,3 +157,9 @@ table.grid th .nm { font-weight: 400; }
 
 .kpis.tasa { margin-bottom: 0; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 .kpis.tasa .kpi { background: var(--bg); }
+
+.kpis.tasa .kpi.term { display: grid; gap: 4px; align-content: start; }
+.kpi.term .pair { display: block; }
+.kpi.term .v2 { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; white-space: nowrap; }
+.kpi.term .dt { color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kpi.nu .nm { font-size: 11px; color: var(--muted); display: block; }

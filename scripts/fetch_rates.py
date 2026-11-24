@@ -532,19 +532,22 @@ def main() -> int:
         pair("10 years", "ust_10y", "bono_10y", fred, bmx, "Treasury 10Y", "Bono M 10Y"),
     ]
 
-    # --- tasa objetivo -------------------------------------------------------
+    # --- tasa actual ----------------------------------------------------------
+    # Mexico vs US yield for each term, as published (no averaging).
     gbm = CONFIG["gbm_smart_cash"]
-    # One per CETES term: (GBM Smart Cash + CETES) / 2.
     tasa = []
-    for label, key in (("1 month", "cetes_28"), ("3 months", "cetes_91"), ("6 months", "cetes_182"),
-                       ("1 year", "cetes_364"), ("2 years", "cetes_728")):
-        c = latest(bmx.get(key))
-        tasa.append({"label": label, "cetes_name": f"CETES {key.split('_')[1]}d", "cetes": c,
-                     "value": round((float(gbm["rate"]) + c["value"]) / 2, 3)
-                     if gbm.get("rate") is not None and c else None})
+    for label, mx_key, mx_name, us_key, us_name in (
+            ("1 month", "cetes_28", "CETES 28d", "tbill_1m", "T-bill 1M"),
+            ("3 months", "cetes_91", "CETES 91d", "tbill_3m", "T-bill 3M"),
+            ("6 months", "cetes_182", "CETES 182d", "tbill_6m", "T-bill 6M"),
+            ("1 year", "cetes_364", "CETES 364d", "tbill_1y", "Treasury 1Y"),
+            ("2 years", "cetes_728", "CETES 728d", "ust_2y", "Treasury 2Y"),
+            ("10 years", "bono_10y", "Bono M 10Y", "ust_10y", "Treasury 10Y")):
+        tasa.append({"label": label, "mx_name": mx_name, "mx": latest(bmx.get(mx_key)),
+                     "us_name": us_name, "us": latest(fred.get(us_key))})
     nu = CONFIG.get("nu_cajitas", {})
-    if gbm.get("rate") is None:
-        warn("GBM Smart Cash rate is not set, so Tasa objetivo can't be computed")
+    if nu.get("rate") is None:
+        warn("Nu Cajitas rate is not set yet; the cloud routine fills it in")
     for name, r in (("GBM Smart Cash", gbm), ("Nu Cajitas", nu)):
         if r.get("rate") is not None and r.get("as_of") and (TODAY - dt.date.fromisoformat(r["as_of"])).days > 10:
             warn(f"{name} rate was last updated on {r['as_of']}; the weekly routine may have failed")
@@ -583,7 +586,7 @@ def main() -> int:
         "investments": rows,
         "gbm_smart_cash": {"rate": gbm.get("rate"), "as_of": gbm.get("as_of"), "source": gbm.get("source")},
         "nu_cajitas": {"rate": nu.get("rate"), "as_of": nu.get("as_of"), "source": nu.get("source")},
-        "tasa_objetivo": tasa,
+        "tasa_actual": tasa,
         "fx": fx,
         "elections": elections,
         "history": {
