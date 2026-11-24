@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fed & Banxico Rates</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Fed & Banxico Rates</h1>
+      <p class="sub">US and Mexico policy rates, meeting calendars, market-implied odds and investment yields. Refreshed daily from official data.</p>
+    </div>
+    <div class="updated" id="updated">Loading…</div>
+  </header>
+
+  <div id="warnings"></div>
+
+  <section class="kpis" id="kpis" aria-label="Summary"></section>
+
+  <section class="banks">
+    <section class="panel" id="fed"></section>
+    <section class="panel" id="banxico"></section>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Policy rates over time</h2>
+      <div class="legend" id="chart-legend"></div>
+    </div>
+    <div class="chart" id="chart"></div>
+    <details class="tbl-toggle"><summary>Show rate changes as a table</summary><div id="chart-table"></div></details>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Investment rates: Mexico vs US</h2>
+      <span class="muted">Spread = Mexico − US, in percentage points. Relative = how much higher Mexico's rate is.</span>
+    </div>
+    <div class="scroll"><table class="grid" id="inv"></table></div>
+  </section>
+
+  <section class="panel">
+    <h2>How these numbers are made</h2>
+    <ul class="notes">
+      <li><b>Calendars.</b> FOMC dates come from <a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm">federalreserve.gov</a>; Banxico dates from its <a href="https://www.banxico.org.mx/publicaciones-y-prensa/anuncios-de-las-decisiones-de-politica-monetaria/anuncios-politica-monetaria-t.html">published calendar</a>. Past decisions compare the rate the day before each meeting with the rate 5 days after.</li>
+      <li><b>Odds (estimate).</b> If a bank moves 25 bp at a meeting k days away, the average rate over a bill's life of h days moves by 25 bp × (h−k)/h. So the bill yield, minus its usual spread to the policy rate, gives the probability-weighted move. The Fed uses T-bills against the effective fed funds rate; Banxico uses CETES against its target. The usual spread ("basis") is the median from the last 2 years, counting only days when the rate didn't change during the bill's life. This is cruder than futures-based tools: cross-check with <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html">CME FedWatch</a>.</li>
+      <li><b>Tasa objetivo</b> = (GBM Smart Cash rate + Banxico target) ÷ 2. GBM has no public API, so its rate is entered by hand when you start the workflow.</li>
+      <li><b>Sources.</b> US: <a href="https://fred.stlouisfed.org">FRED</a> (St. Louis Fed). Mexico: <a href="https://www.banxico.org.mx/SieAPIRest/service/v1/">Banxico SIE API</a>. Bill yields are the latest published, usually one business day old; CETES come from weekly auctions.</li>
+    </ul>
+  </section>
+  <div class="tip" id="tip" hidden></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

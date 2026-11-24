@@ -1,0 +1,102 @@
+name: Update rates
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # every day at 13:00 UTC (07:00 Mexico City); Telegram goes out on Mondays
+  workflow_dispatch:        # "Run workflow" button in the Actions tab
+    inputs:
+      gbm_rate:
+        description: "GBM Smart Cash rate in % (e.g. 6.25). Leave empty to keep the current one."
+        type: string
+        default: ""
+      notify:
+        description: "Send the Telegram summary now"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Save new GBM Smart Cash rate
+        if: ${{ inputs.gbm_rate != '' && inputs.gbm_rate != null }}
+        env:
+          GBM_RATE: ${{ inputs.gbm_rate }}
+        run: |
+          python - <<'EOF'
+          import datetime, json, os, re
+          raw = os.environ["GBM_RATE"].strip().replace("%", "").replace(",", ".")
+          if not re.fullmatch(r"\d{1,2}(\.\d+)?", raw):
+              raise SystemExit(f"'{raw}' is not a rate like 6.25")
+          c = json.load(open("config.json"))
+          c["gbm_smart_cash"]["rate"] = float(raw)
+          c["gbm_smart_cash"]["as_of"] = datetime.date.today().isoformat()
+          json.dump(c, open("config.json", "w"), indent=2, ensure_ascii=False)
+          print("GBM Smart Cash rate set to", raw)
+          EOF
+
+      - name: Fetch data
+        env:
+          BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
+        run: python scripts/fetch_rates.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/data data/raw config.json
+          if git diff --cached --quiet; then
+            echo "No data changes"
+          else
+            git commit -m "Update rates $(date -u +%F)"
+            git push
+          fi
+
+      - name: Send Telegram summary (Mondays, or when asked)
+        if: ${{ inputs.notify || (github.event_name == 'schedule' && github.event.schedule == '0 13 * * *') }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DASHBOARD_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+          FORCE: ${{ inputs.notify }}
+        run: |
+          if [ "$FORCE" = "true" ] || [ "$(date -u +%u)" = "1" ]; then
+            python scripts/notify.py
+          else
+            echo "Not Monday; no notification"
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

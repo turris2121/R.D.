@@ -1,0 +1,804 @@
+{
+ "generated": "2026-11-24T00:09+00:00",
+ "today": "2026-11-23",
+ "sources_fetched": {
+  "fred": "2026-11-23",
+  "banxico": null,
+  "fomc_calendar": "2026-11-23",
+  "banxico_calendar": "2026-11-23"
+ },
+ "fed": {
+  "upper": {
+   "date": "2026-11-23",
+   "value": 4.0
+  },
+  "lower": {
+   "date": "2026-11-23",
+   "value": 3.75
+  },
+  "effr": {
+   "date": "2026-11-20",
+   "value": 3.88
+  },
+  "meetings": [
+   {
+    "date": "2021-01-27",
+    "label": "January 26-27",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2021-03-17",
+    "label": "March 16-17*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2021-04-28",
+    "label": "April 27-28",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2021-06-16",
+    "label": "June 15-16*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2021-07-28",
+    "label": "July 27-28",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2021-09-22",
+    "label": "September 21-22*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2021-11-03",
+    "label": "November 2-3",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2021-12-15",
+    "label": "December 14-15*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2022-01-26",
+    "label": "January 25-26",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2022-03-16",
+    "label": "March 15-16*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2022-05-04",
+    "label": "May 3-4",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2022-06-15",
+    "label": "June 14-15*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2022-07-27",
+    "label": "July 26-27",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2022-09-21",
+    "label": "September 20-21*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2022-11-02",
+    "label": "November 1-2",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2022-12-14",
+    "label": "December 13-14*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2023-02-01",
+    "label": "Jan/Feb 31-1",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2023-03-22",
+    "label": "March 21-22*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2023-05-03",
+    "label": "May 2-3",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2023-06-14",
+    "label": "June 13-14*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2023-07-26",
+    "label": "July 25-26",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2023-09-20",
+    "label": "September 19-20*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2023-11-01",
+    "label": "Oct/Nov 31-1",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2023-12-13",
+    "label": "December 12-13*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2024-01-31",
+    "label": "January 30-31",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2024-03-20",
+    "label": "March 19-20*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2024-05-01",
+    "label": "Apr/May 30-1",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2024-06-12",
+    "label": "June 11-12*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2024-07-31",
+    "label": "July 30-31",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2024-09-18",
+    "label": "September 17-18*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2024-11-07",
+    "label": "November 6-7",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2024-12-18",
+    "label": "December 17-18*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-01-29",
+    "label": "January 28-29",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-03-19",
+    "label": "March 18-19*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-05-07",
+    "label": "May 6-7",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-06-18",
+    "label": "June 17-18*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-07-30",
+    "label": "July 29-30",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-08-22",
+    "label": "August 22 (notation vote)",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-09-17",
+    "label": "September 16-17*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-10-29",
+    "label": "October 28-29",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2025-12-10",
+    "label": "December 9-10*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2026-01-28",
+    "label": "January 27-28",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2026-03-18",
+    "label": "March 17-18*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2026-04-29",
+    "label": "April 28-29",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2026-06-17",
+    "label": "June 16-17*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2026-07-29",
+    "label": "July 28-29",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2026-09-16",
+    "label": "September 15-16*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2026-10-28",
+    "label": "October 27-28",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2026-12-09",
+    "label": "December 8-9*",
+    "sep": true,
+    "unscheduled": false
+   },
+   {
+    "date": "2027-01-27",
+    "label": "January 26-27",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2027-03-17",
+    "label": "March 16-17",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2027-04-28",
+    "label": "April 27-28",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2027-06-09",
+    "label": "June 8-9",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2027-07-28",
+    "label": "July 27-28",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2027-09-15",
+    "label": "September 14-15",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2027-10-27",
+    "label": "October 26-27",
+    "sep": false,
+    "unscheduled": false
+   },
+   {
+    "date": "2027-11-17",
+    "label": "November 16-17",
+    "sep": false,
+    "unscheduled": false
+   }
+  ],
+  "next_meeting": "2026-12-09",
+  "decisions": [
+   {
+    "date": "2025-07-30",
+    "bp": 0,
+    "rate": 4.5,
+    "action": "hold"
+   },
+   {
+    "date": "2025-08-22",
+    "bp": 0,
+    "rate": 4.5,
+    "action": "hold"
+   },
+   {
+    "date": "2025-09-17",
+    "bp": -25,
+    "rate": 4.25,
+    "action": "cut"
+   },
+   {
+    "date": "2025-10-29",
+    "bp": -25,
+    "rate": 4.0,
+    "action": "cut"
+   },
+   {
+    "date": "2025-12-10",
+    "bp": -25,
+    "rate": 3.75,
+    "action": "cut"
+   },
+   {
+    "date": "2026-01-28",
+    "bp": 0,
+    "rate": 3.75,
+    "action": "hold"
+   },
+   {
+    "date": "2026-03-18",
+    "bp": 0,
+    "rate": 3.75,
+    "action": "hold"
+   },
+   {
+    "date": "2026-04-29",
+    "bp": 0,
+    "rate": 3.75,
+    "action": "hold"
+   },
+   {
+    "date": "2026-06-17",
+    "bp": 0,
+    "rate": 3.75,
+    "action": "hold"
+   },
+   {
+    "date": "2026-07-29",
+    "bp": 0,
+    "rate": 3.75,
+    "action": "hold"
+   },
+   {
+    "date": "2026-09-16",
+    "bp": 25,
+    "rate": 4.0,
+    "action": "hike"
+   },
+   {
+    "date": "2026-10-28",
+    "bp": 0,
+    "rate": 4.0,
+    "action": "hold"
+   }
+  ],
+  "changes": [
+   {
+    "date": "2022-12-15",
+    "from": 4.0,
+    "to": 4.5,
+    "bp": 50
+   },
+   {
+    "date": "2023-02-02",
+    "from": 4.5,
+    "to": 4.75,
+    "bp": 25
+   },
+   {
+    "date": "2023-03-23",
+    "from": 4.75,
+    "to": 5.0,
+    "bp": 25
+   },
+   {
+    "date": "2023-05-04",
+    "from": 5.0,
+    "to": 5.25,
+    "bp": 25
+   },
+   {
+    "date": "2023-07-27",
+    "from": 5.25,
+    "to": 5.5,
+    "bp": 25
+   },
+   {
+    "date": "2024-09-19",
+    "from": 5.5,
+    "to": 5.0,
+    "bp": -50
+   },
+   {
+    "date": "2024-11-08",
+    "from": 5.0,
+    "to": 4.75,
+    "bp": -25
+   },
+   {
+    "date": "2024-12-19",
+    "from": 4.75,
+    "to": 4.5,
+    "bp": -25
+   },
+   {
+    "date": "2025-09-18",
+    "from": 4.5,
+    "to": 4.25,
+    "bp": -25
+   },
+   {
+    "date": "2025-10-30",
+    "from": 4.25,
+    "to": 4.0,
+    "bp": -25
+   },
+   {
+    "date": "2025-12-11",
+    "from": 4.0,
+    "to": 3.75,
+    "bp": -25
+   },
+   {
+    "date": "2026-09-17",
+    "from": 3.75,
+    "to": 4.0,
+    "bp": 25
+   }
+  ],
+  "odds": {
+   "meeting": "2026-12-09",
+   "days_to_meeting": 16,
+   "instrument_days": 30,
+   "instrument_yield": 4.19,
+   "instrument_date": "2026-11-20",
+   "policy_rate": 3.88,
+   "basis": 0.08,
+   "implied_move_bp": 49.3,
+   "p_hold": 0.0,
+   "p_cut": 0.0,
+   "p_hike": 1.0,
+   "p_50bp": 0.971
+  }
+ },
+ "banxico": {
+  "target": null,
+  "meetings": [
+   {
+    "date": "2026-02-05"
+   },
+   {
+    "date": "2026-03-26"
+   },
+   {
+    "date": "2026-05-07"
+   },
+   {
+    "date": "2026-06-25"
+   },
+   {
+    "date": "2026-08-06"
+   },
+   {
+    "date": "2026-09-24"
+   },
+   {
+    "date": "2026-11-05"
+   },
+   {
+    "date": "2026-12-17"
+   }
+  ],
+  "next_meeting": "2026-12-17",
+  "decisions": [],
+  "changes": [],
+  "odds": null,
+  "usdmxn": null,
+  "series_titles": {}
+ },
+ "investments": [
+  {
+   "label": "Policy rate",
+   "us_name": "Fed funds (upper bound)",
+   "mx_name": "Banxico target",
+   "us": {
+    "date": "2026-11-23",
+    "value": 4.0
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  },
+  {
+   "label": "Overnight",
+   "us_name": "Effective fed funds",
+   "mx_name": "TIIE de fondeo",
+   "us": {
+    "date": "2026-11-20",
+    "value": 3.88
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  },
+  {
+   "label": "Overnight (secured)",
+   "us_name": "SOFR",
+   "mx_name": "TIIE de fondeo",
+   "us": {
+    "date": "2026-11-20",
+    "value": 3.92
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  },
+  {
+   "label": "~1 month",
+   "us_name": "T-bill 1M",
+   "mx_name": "CETES 28d",
+   "us": {
+    "date": "2026-11-20",
+    "value": 4.19
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  },
+  {
+   "label": "~1 month (interbank)",
+   "us_name": "T-bill 1M",
+   "mx_name": "TIIE 28d",
+   "us": {
+    "date": "2026-11-20",
+    "value": 4.19
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  },
+  {
+   "label": "3 months",
+   "us_name": "T-bill 3M",
+   "mx_name": "CETES 91d",
+   "us": {
+    "date": "2026-11-20",
+    "value": 4.32
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  },
+  {
+   "label": "6 months",
+   "us_name": "T-bill 6M",
+   "mx_name": "CETES 182d",
+   "us": {
+    "date": "2026-11-20",
+    "value": 4.38
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  },
+  {
+   "label": "1 year",
+   "us_name": "Treasury 1Y",
+   "mx_name": "CETES 364d",
+   "us": {
+    "date": "2026-11-20",
+    "value": 4.51
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  },
+  {
+   "label": "10 years",
+   "us_name": "Treasury 10Y",
+   "mx_name": "Bono M 10Y",
+   "us": {
+    "date": "2026-11-20",
+    "value": 4.92
+   },
+   "mx": null,
+   "spread_pp": null,
+   "relative_pct": null
+  }
+ ],
+ "gbm_smart_cash": {
+  "rate": null,
+  "as_of": null
+ },
+ "tasa_objetivo": null,
+ "history": {
+  "fed_upper": [
+   [
+    "2022-11-24",
+    4.0
+   ],
+   [
+    "2022-12-15",
+    4.5
+   ],
+   [
+    "2023-02-02",
+    4.75
+   ],
+   [
+    "2023-03-23",
+    5.0
+   ],
+   [
+    "2023-05-04",
+    5.25
+   ],
+   [
+    "2023-07-27",
+    5.5
+   ],
+   [
+    "2024-09-19",
+    5.0
+   ],
+   [
+    "2024-11-08",
+    4.75
+   ],
+   [
+    "2024-12-19",
+    4.5
+   ],
+   [
+    "2025-09-18",
+    4.25
+   ],
+   [
+    "2025-10-30",
+    4.0
+   ],
+   [
+    "2025-12-11",
+    3.75
+   ],
+   [
+    "2026-09-17",
+    4.0
+   ],
+   [
+    "2026-11-23",
+    4.0
+   ]
+  ],
+  "fed_lower": [
+   [
+    "2022-11-24",
+    3.75
+   ],
+   [
+    "2022-12-15",
+    4.25
+   ],
+   [
+    "2023-02-02",
+    4.5
+   ],
+   [
+    "2023-03-23",
+    4.75
+   ],
+   [
+    "2023-05-04",
+    5.0
+   ],
+   [
+    "2023-07-27",
+    5.25
+   ],
+   [
+    "2024-09-19",
+    4.75
+   ],
+   [
+    "2024-11-08",
+    4.5
+   ],
+   [
+    "2024-12-19",
+    4.25
+   ],
+   [
+    "2025-09-18",
+    4.0
+   ],
+   [
+    "2025-10-30",
+    3.75
+   ],
+   [
+    "2025-12-11",
+    3.5
+   ],
+   [
+    "2026-09-17",
+    3.75
+   ],
+   [
+    "2026-11-23",
+    3.75
+   ]
+  ],
+  "banxico_target": []
+ },
+ "warnings": [
+  "banxico: fetch failed (BANXICO_TOKEN is not set) and no cached copy",
+  "GBM Smart Cash rate is not set, so Tasa objetivo can't be computed"
+ ]
+}
