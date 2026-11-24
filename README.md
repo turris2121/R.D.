@@ -13,7 +13,9 @@ Every day at 13:00 UTC (07:00 Mexico City) a GitHub Action runs `scripts/fetch_r
 
 | Source | Provides | Key needed |
 |---|---|---|
-| [FRED](https://fred.stlouisfed.org) | Fed target range, EFFR, SOFR, T-bills, Treasuries | no |
+| [New York Fed](https://markets.newyorkfed.org/static/docs/markets-api.html) | Fed target range, EFFR, SOFR | no |
+| [US Treasury](https://home.treasury.gov/resource-center/data-chart-center/interest-rates) | T-bill and Treasury yields (1M–10Y) | no |
+| [FRED](https://fred.stlouisfed.org) | fallback for both of the above | no |
 | [federalreserve.gov](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm) | FOMC meeting calendar | no |
 | [Banxico SIE API](https://www.banxico.org.mx/SieAPIRest/service/v1/) | target rate, TIIE, CETES, Bono M 10Y, USD/MXN FIX | free token |
 | [Banxico calendar PDF](https://www.banxico.org.mx/publicaciones-y-prensa/anuncios-de-las-decisiones-de-politica-monetaria/anuncios-politica-monetaria-t.html) | Banxico decision dates | no |

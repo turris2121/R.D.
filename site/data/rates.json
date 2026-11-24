@@ -1,19 +1,19 @@
 {
- "generated": "2026-11-24T00:31+00:00",
- "today": "2026-11-24",
+ "generated": "2026-11-24T00:33+00:00",
+ "today": "2026-11-23",
  "sources_fetched": {
-  "fred": "2026-11-23",
+  "us": "2026-11-23",
   "banxico": null,
-  "fomc_calendar": "2026-11-24",
-  "banxico_calendar": "2026-11-24"
+  "fomc_calendar": "2026-11-23",
+  "banxico_calendar": "2026-11-23"
  },
  "fed": {
   "upper": {
-   "date": "2026-11-23",
+   "date": "2026-11-20",
    "value": 4.0
   },
   "lower": {
-   "date": "2026-11-23",
+   "date": "2026-11-20",
    "value": 3.75
   },
   "effr": {
@@ -515,17 +515,17 @@
   ],
   "odds": {
    "meeting": "2026-12-09",
-   "days_to_meeting": 15,
+   "days_to_meeting": 16,
    "instrument_days": 30,
-   "instrument_yield": 4.19,
-   "instrument_date": "2026-11-20",
+   "instrument_yield": 4.2,
+   "instrument_date": "2026-11-23",
    "policy_rate": 3.88,
    "basis": 0.08,
-   "implied_move_bp": 46.0,
+   "implied_move_bp": 51.4,
    "p_hold": 0.0,
    "p_cut": 0.0,
    "p_hike": 1.0,
-   "p_50bp": 0.84
+   "p_50bp": 1.0
   }
  },
  "banxico": {
@@ -569,7 +569,7 @@
    "us_name": "Fed funds (upper bound)",
    "mx_name": "Banxico target",
    "us": {
-    "date": "2026-11-23",
+    "date": "2026-11-20",
     "value": 4.0
    },
    "mx": null,
@@ -605,8 +605,8 @@
    "us_name": "T-bill 1M",
    "mx_name": "CETES 28d",
    "us": {
-    "date": "2026-11-20",
-    "value": 4.19
+    "date": "2026-11-23",
+    "value": 4.2
    },
    "mx": null,
    "spread_pp": null,
@@ -617,8 +617,8 @@
    "us_name": "T-bill 1M",
    "mx_name": "TIIE 28d",
    "us": {
-    "date": "2026-11-20",
-    "value": 4.19
+    "date": "2026-11-23",
+    "value": 4.2
    },
    "mx": null,
    "spread_pp": null,
@@ -629,8 +629,8 @@
    "us_name": "T-bill 3M",
    "mx_name": "CETES 91d",
    "us": {
-    "date": "2026-11-20",
-    "value": 4.32
+    "date": "2026-11-23",
+    "value": 4.37
    },
    "mx": null,
    "spread_pp": null,
@@ -641,8 +641,8 @@
    "us_name": "T-bill 6M",
    "mx_name": "CETES 182d",
    "us": {
-    "date": "2026-11-20",
-    "value": 4.38
+    "date": "2026-11-23",
+    "value": 4.45
    },
    "mx": null,
    "spread_pp": null,
@@ -653,8 +653,8 @@
    "us_name": "Treasury 1Y",
    "mx_name": "CETES 364d",
    "us": {
-    "date": "2026-11-20",
-    "value": 4.51
+    "date": "2026-11-23",
+    "value": 4.57
    },
    "mx": null,
    "spread_pp": null,
@@ -665,7 +665,7 @@
    "us_name": "Treasury 10Y",
    "mx_name": "Bono M 10Y",
    "us": {
-    "date": "2026-11-20",
+    "date": "2026-11-23",
     "value": 4.92
    },
    "mx": null,
@@ -681,7 +681,7 @@
  "history": {
   "fed_upper": [
    [
-    "2022-11-24",
+    "2022-11-25",
     4.0
    ],
    [
@@ -733,13 +733,13 @@
     4.0
    ],
    [
-    "2026-11-23",
+    "2026-11-20",
     4.0
    ]
   ],
   "fed_lower": [
    [
-    "2022-11-24",
+    "2022-11-25",
     3.75
    ],
    [
@@ -791,14 +791,13 @@
     3.75
    ],
    [
-    "2026-11-23",
+    "2026-11-20",
     3.75
    ]
   ],
   "banxico_target": []
  },
  "warnings": [
-  "fred: fetch failed (https://fred.stlouisfed.org/graph/fredgraph.csv: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=60)); using copy from 2026-11-23",
   "banxico: fetch failed (BANXICO_TOKEN is not set) and no cached copy",
   "GBM Smart Cash rate is not set, so Tasa objetivo can't be computed"
  ]

@@ -83,13 +83,61 @@ def fetch_fred() -> dict:
     """FRED's public CSV endpoint (no key). One request per series."""
     out = {}
     for key, sid in CONFIG["fred_series"].items():
-        r = get("https://fred.stlouisfed.org/graph/fredgraph.csv",
+        r = get("https://fred.stlouisfed.org/graph/fredgraph.csv", tries=1,
                 params={"id": sid, "cosd": HISTORY_START.isoformat()})
         rows = list(csv.reader(io.StringIO(r.text)))[1:]
         pts = [[d, float(v)] for d, v in rows if v not in (".", "")]
         if not pts:
             raise RuntimeError(f"FRED {sid} returned no data")
         out[key] = {"id": sid, "points": pts}
+    return out
+
+
+TREASURY_COLS = {"tbill_1m": "1 Mo", "tbill_3m": "3 Mo", "tbill_6m": "6 Mo",
+                 "tbill_1y": "1 Yr", "ust_2y": "2 Yr", "ust_10y": "10 Yr"}
+
+
+def fetch_us() -> dict:
+    """NY Fed (EFFR + target range, SOFR) and Treasury (yield curve). Both are the
+    original publishers and answer cloud servers reliably; FRED is the fallback."""
+    try:
+        return fetch_us_official()
+    except Exception as e:  # noqa: BLE001
+        log(f"NY Fed / Treasury failed ({e}); trying FRED")
+        return fetch_fred()
+
+
+def fetch_us_official() -> dict:
+    span = {"startDate": HISTORY_START.isoformat(), "endDate": TODAY.isoformat()}
+    effr = get("https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json", params=span).json()["refRates"]
+    sofr = get("https://markets.newyorkfed.org/api/rates/secured/sofr/search.json", params=span).json()["refRates"]
+    effr.sort(key=lambda r: r["effectiveDate"])
+    sofr.sort(key=lambda r: r["effectiveDate"])
+    out = {
+        "effr": {"id": "NY Fed EFFR", "points": [[r["effectiveDate"], float(r["percentRate"])] for r in effr]},
+        "fed_upper": {"id": "NY Fed target", "points": [[r["effectiveDate"], float(r["targetRateTo"])] for r in effr]},
+        "fed_lower": {"id": "NY Fed target", "points": [[r["effectiveDate"], float(r["targetRateFrom"])] for r in effr]},
+        "sofr": {"id": "NY Fed SOFR", "points": [[r["effectiveDate"], float(r["percentRate"])] for r in sofr]},
+    }
+    rows = []
+    for year in range(HISTORY_START.year, TODAY.year + 1):
+        r = get(f"https://home.treasury.gov/resource-center/data-chart-center/interest-rates/"
+                f"daily-treasury-rates.csv/{year}/all",
+                params={"type": "daily_treasury_yield_curve", "field_tdr_date_value": year, "_format": "csv"})
+        rows += list(csv.DictReader(io.StringIO(r.text)))
+    for key, col in TREASURY_COLS.items():
+        pts = []
+        for row in rows:
+            v = (row.get(col) or "").strip()
+            if not v:
+                continue
+            mm, dd, yy = row["Date"].split("/")
+            pts.append([f"{yy}-{mm}-{dd}", float(v)])
+        pts.sort()
+        out[key] = {"id": f"Treasury {col}", "points": pts}
+    for k, v in out.items():
+        if not v["points"]:
+            raise RuntimeError(f"{k}: no data")
     return out
 
 
@@ -346,7 +394,7 @@ def pair(label, us_key, mx_key, us, mx, us_name, mx_name):
 
 # --------------------------------------------------------------------------- #
 def main() -> int:
-    fred, fred_at = cached("fred", fetch_fred)
+    fred, fred_at = cached("us", fetch_us)
     bmx, bmx_at = cached("banxico", fetch_banxico)
     fomc, fomc_at = cached("fomc_calendar", fetch_fomc)
     bxcal, bxcal_at = cached("banxico_calendar", fetch_banxico_calendar)
@@ -435,7 +483,7 @@ def main() -> int:
     out = {
         "generated": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
         "today": TODAY.isoformat(),
-        "sources_fetched": {"fred": fred_at, "banxico": bmx_at, "fomc_calendar": fomc_at,
+        "sources_fetched": {"us": fred_at, "banxico": bmx_at, "fomc_calendar": fomc_at,
                             "banxico_calendar": bxcal_at},
         "fed": {
             "upper": fed_up, "lower": fed_lo, "effr": effr,
