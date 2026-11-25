@@ -1,23 +1,23 @@
 {
- "generated": "2026-11-24T17:07+00:00",
- "today": "2026-11-24",
+ "generated": "2026-11-25T14:07+00:00",
+ "today": "2026-11-25",
  "sources_fetched": {
-  "us": "2026-11-24",
-  "banxico": "2026-11-24",
-  "fomc_calendar": "2026-11-24",
-  "banxico_calendar": "2026-11-24"
+  "us": "2026-11-25",
+  "banxico": "2026-11-25",
+  "fomc_calendar": "2026-11-25",
+  "banxico_calendar": "2026-11-25"
  },
  "fed": {
   "upper": {
-   "date": "2026-11-23",
+   "date": "2026-11-24",
    "value": 4.0
   },
   "lower": {
-   "date": "2026-11-23",
+   "date": "2026-11-24",
    "value": 3.75
   },
   "effr": {
-   "date": "2026-11-23",
+   "date": "2026-11-24",
    "value": 3.88
   },
   "meetings": [
@@ -515,37 +515,37 @@
   ],
   "odds": {
    "meeting": "2026-12-09",
-   "days_to_meeting": 15,
+   "days_to_meeting": 14,
    "instrument_days": 30,
-   "instrument_yield": 4.2,
-   "instrument_date": "2026-11-23",
+   "instrument_yield": 4.21,
+   "instrument_date": "2026-11-24",
    "policy_rate": 3.88,
    "basis": 0.084,
    "noise_iqr": 0.084,
    "signal": "clear",
-   "excess_bp": 23.6,
+   "excess_bp": 24.6,
    "longer_bills": [
     {
      "days": 91,
-     "excess_bp": 42.4,
+     "excess_bp": 41.4,
      "noise_bp": 5.8
     },
     {
      "days": 182,
-     "excess_bp": 53.7,
+     "excess_bp": 54.7,
      "noise_bp": 6.5
     }
    ],
-   "implied_move_bp": 47.2,
+   "implied_move_bp": 46.1,
    "p_hold": 0.0,
    "p_cut": 0.0,
    "p_hike": 1.0,
-   "p_50bp": 0.888
+   "p_50bp": 0.845
   }
  },
  "banxico": {
   "target": {
-   "date": "2026-11-24",
+   "date": "2026-11-25",
    "value": 6.25
   },
   "meetings": [
@@ -695,7 +695,7 @@
   ],
   "odds": {
    "meeting": "2026-12-17",
-   "days_to_meeting": 23,
+   "days_to_meeting": 22,
    "instrument_days": 91,
    "instrument_yield": 6.49,
    "instrument_date": "2026-11-19",
@@ -711,15 +711,15 @@
      "noise_bp": 8.6
     }
    ],
-   "implied_move_bp": 19.3,
-   "p_hold": 0.229,
+   "implied_move_bp": 19.0,
+   "p_hold": 0.24,
    "p_cut": 0.0,
-   "p_hike": 0.771,
+   "p_hike": 0.76,
    "p_50bp": 0.0
   },
   "usdmxn": {
-   "date": "2026-11-23",
-   "value": 19.1648
+   "date": "2026-11-24",
+   "value": 19.3668
   },
   "series_titles": {
    "target": "Tasa objetivo",
@@ -741,11 +741,11 @@
    "us_name": "Fed funds (upper bound)",
    "mx_name": "Banxico target",
    "us": {
-    "date": "2026-11-23",
+    "date": "2026-11-24",
     "value": 4.0
    },
    "mx": {
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "value": 6.25
    },
    "spread_pp": 2.25,
@@ -756,112 +756,112 @@
    "us_name": "Effective fed funds",
    "mx_name": "TIIE de fondeo",
    "us": {
-    "date": "2026-11-23",
+    "date": "2026-11-24",
     "value": 3.88
    },
    "mx": {
-    "date": "2026-11-23",
-    "value": 6.3
+    "date": "2026-11-24",
+    "value": 6.35
    },
-   "spread_pp": 2.42,
-   "relative_pct": 62.4
+   "spread_pp": 2.47,
+   "relative_pct": 63.7
   },
   {
    "label": "Overnight (secured)",
    "us_name": "SOFR",
    "mx_name": "TIIE de fondeo",
    "us": {
-    "date": "2026-11-23",
-    "value": 3.92
+    "date": "2026-11-24",
+    "value": 3.94
    },
    "mx": {
-    "date": "2026-11-23",
-    "value": 6.3
+    "date": "2026-11-24",
+    "value": 6.35
    },
-   "spread_pp": 2.38,
-   "relative_pct": 60.7
+   "spread_pp": 2.41,
+   "relative_pct": 61.2
   },
   {
    "label": "~1 month",
    "us_name": "T-bill 1M",
    "mx_name": "CETES 28d",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.2
+    "date": "2026-11-24",
+    "value": 4.21
    },
    "mx": {
     "date": "2026-11-19",
     "value": 6.19
    },
-   "spread_pp": 1.99,
-   "relative_pct": 47.4
+   "spread_pp": 1.98,
+   "relative_pct": 47.0
   },
   {
    "label": "~1 month (interbank)",
    "us_name": "T-bill 1M",
    "mx_name": "TIIE 28d",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.2
+    "date": "2026-11-24",
+    "value": 4.21
    },
    "mx": {
-    "date": "2026-11-24",
-    "value": 6.5449
+    "date": "2026-11-25",
+    "value": 6.5549
    },
    "spread_pp": 2.34,
-   "relative_pct": 55.8
+   "relative_pct": 55.7
   },
   {
    "label": "3 months",
    "us_name": "T-bill 3M",
    "mx_name": "CETES 91d",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.37
+    "date": "2026-11-24",
+    "value": 4.36
    },
    "mx": {
     "date": "2026-11-19",
     "value": 6.49
    },
-   "spread_pp": 2.12,
-   "relative_pct": 48.5
+   "spread_pp": 2.13,
+   "relative_pct": 48.9
   },
   {
    "label": "6 months",
    "us_name": "T-bill 6M",
    "mx_name": "CETES 182d",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.45
+    "date": "2026-11-24",
+    "value": 4.46
    },
    "mx": {
     "date": "2026-11-19",
     "value": 6.67
    },
-   "spread_pp": 2.22,
-   "relative_pct": 49.9
+   "spread_pp": 2.21,
+   "relative_pct": 49.6
   },
   {
    "label": "1 year",
    "us_name": "Treasury 1Y",
    "mx_name": "CETES 364d",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.57
+    "date": "2026-11-24",
+    "value": 4.59
    },
    "mx": {
     "date": "2026-11-12",
     "value": 6.95
    },
-   "spread_pp": 2.38,
-   "relative_pct": 52.1
+   "spread_pp": 2.36,
+   "relative_pct": 51.4
   },
   {
    "label": "2 years",
    "us_name": "Treasury 2Y",
    "mx_name": "CETES 728d",
    "us": {
-    "date": "2026-11-23",
+    "date": "2026-11-24",
     "value": 4.63
    },
    "mx": {
@@ -876,15 +876,15 @@
    "us_name": "Treasury 10Y",
    "mx_name": "Bono M 10Y",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.92
+    "date": "2026-11-24",
+    "value": 4.91
    },
    "mx": {
     "date": "2026-11-19",
     "value": 9.28
    },
-   "spread_pp": 4.36,
-   "relative_pct": 88.6
+   "spread_pp": 4.37,
+   "relative_pct": 89.0
   }
  ],
  "tasa_actual": [
@@ -897,8 +897,8 @@
    },
    "us_name": "T-bill 1 mes",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.2
+    "date": "2026-11-24",
+    "value": 4.21
    }
   },
   {
@@ -910,8 +910,8 @@
    },
    "us_name": "T-bill 3 meses",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.37
+    "date": "2026-11-24",
+    "value": 4.36
    }
   },
   {
@@ -923,8 +923,8 @@
    },
    "us_name": "T-bill 6 meses",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.45
+    "date": "2026-11-24",
+    "value": 4.46
    }
   },
   {
@@ -936,8 +936,8 @@
    },
    "us_name": "Treasury 1 año",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.57
+    "date": "2026-11-24",
+    "value": 4.59
    }
   },
   {
@@ -949,7 +949,7 @@
    },
    "us_name": "Treasury 2 años",
    "us": {
-    "date": "2026-11-23",
+    "date": "2026-11-24",
     "value": 4.63
    }
   },
@@ -962,8 +962,8 @@
    },
    "us_name": "Treasury 5 años",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.74
+    "date": "2026-11-24",
+    "value": 4.69
    }
   },
   {
@@ -975,78 +975,78 @@
    },
    "us_name": "Treasury 10 años",
    "us": {
-    "date": "2026-11-23",
-    "value": 4.92
+    "date": "2026-11-24",
+    "value": 4.91
    }
   }
  ],
  "fx": {
-  "spot": 19.1648,
-  "spot_date": "2026-11-23",
-  "vol_annual": 8.53,
+  "spot": 19.3668,
+  "spot_date": "2026-11-24",
+  "vol_annual": 8.59,
   "horizons": [
    {
     "label": "1 mes",
     "days": 30,
-    "forward": 19.1965,
-    "forward_pct": 0.17,
+    "forward": 19.3986,
+    "forward_pct": 0.16,
     "p_usd_up": 0.522,
-    "p_up_5": 0.026,
+    "p_up_5": 0.027,
     "p_down_5": 0.016,
     "range80": [
-     18.6,
-     19.8
+     18.79,
+     20.01
     ],
     "mx_rate": 6.19,
-    "us_rate": 4.2,
+    "us_rate": 4.21,
     "events": []
    },
    {
     "label": "3 meses",
     "days": 91,
-    "forward": 19.2664,
+    "forward": 19.4699,
     "forward_pct": 0.53,
     "p_usd_up": 0.541,
-    "p_up_5": 0.149,
-    "p_down_5": 0.096,
+    "p_up_5": 0.15,
+    "p_down_5": 0.097,
     "range80": [
-     18.23,
-     20.33
+     18.41,
+     20.55
     ],
     "mx_rate": 6.49,
-    "us_rate": 4.37,
+    "us_rate": 4.36,
     "events": []
    },
    {
     "label": "6 meses",
     "days": 182,
-    "forward": 19.3752,
-    "forward_pct": 1.1,
-    "p_usd_up": 0.56,
-    "p_up_5": 0.255,
-    "p_down_5": 0.158,
+    "forward": 19.5784,
+    "forward_pct": 1.09,
+    "p_usd_up": 0.559,
+    "p_up_5": 0.256,
+    "p_down_5": 0.16,
     "range80": [
-     17.9,
-     20.89
+     18.08,
+     21.12
     ],
     "mx_rate": 6.67,
-    "us_rate": 4.45,
+    "us_rate": 4.46,
     "events": []
    },
    {
     "label": "1 año",
     "days": 364,
-    "forward": 19.6056,
-    "forward_pct": 2.3,
-    "p_usd_up": 0.589,
+    "forward": 19.8084,
+    "forward_pct": 2.28,
+    "p_usd_up": 0.587,
     "p_up_5": 0.364,
-    "p_down_5": 0.204,
+    "p_down_5": 0.207,
     "range80": [
-     17.51,
-     21.79
+     17.68,
+     22.03
     ],
     "mx_rate": 6.95,
-    "us_rate": 4.57,
+    "us_rate": 4.59,
     "events": [
      "Elección intermedia de México"
     ]
@@ -1122,29 +1122,29 @@
     "name": "Elección intermedia de México",
     "country": "MX",
     "date": "2027-06-06",
-    "days_until": 194,
-    "horizon_days": 204,
-    "forward": 19.39,
+    "days_until": 193,
+    "horizon_days": 203,
+    "forward": 19.59,
     "with_election": {
      "p_usd_up": 0.537,
-     "p_up_5": 0.318,
-     "p_down_5": 0.244,
+     "p_up_5": 0.317,
+     "p_down_5": 0.245,
      "range80": [
-      17.31,
-      21.57
+      17.48,
+      21.8
      ]
     },
     "without_election": {
-     "p_usd_up": 0.561,
+     "p_usd_up": 0.56,
      "p_up_5": 0.27,
-     "p_down_5": 0.169,
+     "p_down_5": 0.171,
      "range80": [
-      17.83,
-      21.0
+      18.01,
+      21.23
      ]
     },
     "p_big_move": 0.562,
-    "p_big_move_base": 0.439
+    "p_big_move_base": 0.441
    },
    {
     "week": {
@@ -1163,29 +1163,29 @@
     "name": "Elección presidencial de EE. UU.",
     "country": "US",
     "date": "2028-11-07",
-    "days_until": 714,
-    "horizon_days": 724,
-    "forward": 20.36,
+    "days_until": 713,
+    "horizon_days": 723,
+    "forward": 20.57,
     "with_election": {
-     "p_usd_up": 0.667,
-     "p_up_5": 0.514,
-     "p_down_5": 0.198,
+     "p_usd_up": 0.666,
+     "p_up_5": 0.513,
+     "p_down_5": 0.2,
      "range80": [
-      17.27,
-      23.65
+      17.43,
+      23.92
      ]
     },
     "without_election": {
-     "p_usd_up": 0.671,
-     "p_up_5": 0.515,
-     "p_down_5": 0.192,
+     "p_usd_up": 0.67,
+     "p_up_5": 0.514,
+     "p_down_5": 0.194,
      "range80": [
-      17.33,
-      23.58
+      17.49,
+      23.85
      ]
     },
-    "p_big_move": 0.712,
-    "p_big_move_base": 0.707
+    "p_big_move": 0.713,
+    "p_big_move_base": 0.708
    },
    {
     "week": {
@@ -1204,29 +1204,29 @@
     "name": "Elección presidencial de México",
     "country": "MX",
     "date": "2030-06-02",
-    "days_until": 1286,
-    "horizon_days": 1296,
-    "forward": 21.92,
+    "days_until": 1285,
+    "horizon_days": 1295,
+    "forward": 22.19,
     "with_election": {
-     "p_usd_up": 0.759,
-     "p_up_5": 0.661,
-     "p_down_5": 0.158,
+     "p_usd_up": 0.76,
+     "p_up_5": 0.663,
+     "p_down_5": 0.157,
      "range80": [
-      17.36,
-      26.89
+      17.55,
+      27.24
      ]
     },
     "without_election": {
-     "p_usd_up": 0.775,
-     "p_up_5": 0.674,
+     "p_usd_up": 0.776,
+     "p_up_5": 0.676,
      "p_down_5": 0.141,
      "range80": [
-      17.61,
-      26.59
+      17.8,
+      26.95
      ]
     },
-    "p_big_move": 0.819,
-    "p_big_move_base": 0.815
+    "p_big_move": 0.82,
+    "p_big_move_base": 0.817
    },
    {
     "week": {
@@ -1245,29 +1245,29 @@
     "name": "Elección intermedia de EE. UU.",
     "country": "US",
     "date": "2030-11-05",
-    "days_until": 1442,
-    "horizon_days": 1452,
-    "forward": 22.28,
+    "days_until": 1441,
+    "horizon_days": 1451,
+    "forward": 22.55,
     "with_election": {
-     "p_usd_up": 0.785,
-     "p_up_5": 0.694,
+     "p_usd_up": 0.786,
+     "p_up_5": 0.696,
      "p_down_5": 0.138,
      "range80": [
-      17.61,
-      27.36
+      17.8,
+      27.74
      ]
     },
     "without_election": {
-     "p_usd_up": 0.788,
-     "p_up_5": 0.696,
+     "p_usd_up": 0.789,
+     "p_up_5": 0.698,
      "p_down_5": 0.135,
      "range80": [
-      17.66,
-      27.31
+      17.85,
+      27.68
      ]
     },
-    "p_big_move": 0.832,
-    "p_big_move_base": 0.831
+    "p_big_move": 0.834,
+    "p_big_move_base": 0.833
    }
   ]
  },
@@ -1279,7 +1279,7 @@
    "date": "2027-06-06",
    "detail": "Se renuevan las 500 diputaciones federales y unos 19,600 cargos locales",
    "source": "https://politica.expansion.mx/mexico/2026/09/11/elecciones-mexico-2027-que-se-vota-fechas-clave-ine",
-   "days_until": 194
+   "days_until": 193
   },
   {
    "id": "us_pres_2028",
@@ -1288,7 +1288,7 @@
    "date": "2028-11-07",
    "detail": "Presidencia, los 435 escaños de la Cámara y 34 del Senado",
    "source": "https://www.usa.gov/when-to-vote",
-   "days_until": 714
+   "days_until": 713
   },
   {
    "id": "mx_pres_2030",
@@ -1297,7 +1297,7 @@
    "date": "2030-06-02",
    "detail": "Presidencia (sexenio) y Congreso; primer domingo de junio",
    "source": "https://www.ine.mx",
-   "days_until": 1286
+   "days_until": 1285
   },
   {
    "id": "us_mid_2030",
@@ -1306,13 +1306,13 @@
    "date": "2030-11-05",
    "detail": "Los 435 escaños de la Cámara y un tercio del Senado. La anterior fue el 3 nov 2026",
    "source": "https://www.usa.gov/when-to-vote",
-   "days_until": 1442
+   "days_until": 1441
   }
  ],
  "history": {
   "fed_upper": [
    [
-    "2022-11-25",
+    "2022-11-28",
     4.0
    ],
    [
@@ -1364,13 +1364,13 @@
     4.0
    ],
    [
-    "2026-11-23",
+    "2026-11-24",
     4.0
    ]
   ],
   "fed_lower": [
    [
-    "2022-11-25",
+    "2022-11-28",
     3.75
    ],
    [
@@ -1422,13 +1422,13 @@
     3.75
    ],
    [
-    "2026-11-23",
+    "2026-11-24",
     3.75
    ]
   ],
   "banxico_target": [
    [
-    "2022-11-25",
+    "2022-11-26",
     10.0
    ],
    [
@@ -1508,7 +1508,7 @@
     6.25
    ],
    [
-    "2026-11-24",
+    "2026-11-25",
     6.25
    ]
   ]
